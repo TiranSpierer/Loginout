@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loginout.ViewModels
+namespace Loginout.ViewModels;
+
+public class HomeViewModel : ViewModelBase
 {
-    internal class HomeViewModel : ViewModelBase
-    {
-    }
 }

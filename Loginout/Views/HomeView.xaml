@@ -4,9 +4,63 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Loginout.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:converters="clr-namespace:UserManager.Converters"
+             mc:Ignorable="d">
+    
+    <UserControl.Resources>
+        <converters:PrivilegeConverter x:Key="PrivilegeConverter" />
+    </UserControl.Resources>
+
     <Grid>
-            
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" SharedSizeGroup="UserTable" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="10">
+            <Button Grid.Row="0" Margin="0 5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding NavigateBackCommand}"
+                    Content="←" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" SharedSizeGroup="UserTable" />
+            </Grid.RowDefinitions>
+
+            <ListView ItemsSource="{Binding Users}" Margin="5" SelectedItem="{Binding SelectedUser}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Id}" Width="Auto" />
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto" />
+                        <GridViewColumn Header="Password" DisplayMemberBinding="{Binding Password}" Width="Auto" />
+                        <GridViewColumn Header="Privileges"
+                                        DisplayMemberBinding="{Binding UserPrivileges, Converter={StaticResource PrivilegeConverter}}"
+                                        Width="Auto" />
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding AddUserCommand}" Margin="10" Width="100">
+                    <TextBlock Text="Add" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+                <Button Command="{Binding RemoveUsersCommand}" Margin="10" Width="100">
+                    <TextBlock Text="Remove" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+                <Button Command="{Binding EditUserCommand}" Margin="10" Width="100">
+                    <TextBlock Text="Edit" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </UserControl>

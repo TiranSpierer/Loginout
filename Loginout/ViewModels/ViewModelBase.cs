@@ -1,6 +1,5 @@
 ﻿
 using Prism.Mvvm;
-using System;
 
 namespace Loginout.ViewModels;
 

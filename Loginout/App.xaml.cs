@@ -20,52 +20,14 @@ public partial class App : Application
 {
     private readonly IHost _host;
 
-    //public App()
-    //{
-    //    _host = Host.CreateDefaultBuilder()
-    //        .AddViewModels()
-    //        .AddViews()
-    //        .AddDbContext()
-    //        .AddServices()
-    //        .Build();
-    //}
-
     public App()
     {
-        var host = Host.CreateDefaultBuilder();
-
-        host.ConfigureServices((context, services) =>
-        {
-            string connectionString = context.Configuration.GetConnectionString("Default")!;
-            services.AddSingleton(new EnvueDbContextFactory(connectionString!));
-            services.AddDbContext<EnvueDbContext>(options => options.UseSqlite(connectionString));
-
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IRepository<User>, Repository<User>>();
-
-            services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
-
-            services.AddSingleton<NavigationStore>();
-
-            services.AddSingleton<HomeViewModel>();
-            services.AddSingleton<NavigationService<HomeViewModel>>();
-            services.AddSingleton<Func<HomeViewModel>>((s) => () => s.GetRequiredService<HomeViewModel>());
-
-            services.AddTransient<LoginViewModel>();
-            services.AddSingleton<NavigationService<LoginViewModel>>();
-            services.AddSingleton<Func<LoginViewModel>>((s) => () => s.GetRequiredService<LoginViewModel>());
-
-            services.AddSingleton<RegisterViewModel>();
-            services.AddSingleton<NavigationService<RegisterViewModel>>();
-            services.AddSingleton<Func<RegisterViewModel>>((s) => () => s.GetRequiredService<RegisterViewModel>());
-
-            services.AddSingleton<MainViewModel>();
-
-            services.AddSingleton(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-        });
-
-        _host = host.Build();
-
+        _host = Host.CreateDefaultBuilder()
+            .AddViewModels()
+            .AddViews()
+            .AddDbContext()
+            .AddServices()
+            .Build();
     }
 
     protected override void OnStartup(StartupEventArgs e)

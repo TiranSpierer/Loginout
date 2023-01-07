@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Loginout"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <ContentControl Content="{Binding CurrentViewModel}" />
-    </Grid>
+        Title="MainWindow" Height="700" Width="1000">
+    
+    <Window.Background>
+        <ImageBrush
+            ImageSource="/Resources/login-background.jpg"
+            Opacity="0.6"
+            Stretch="UniformToFill" />
+    </Window.Background>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+    </ScrollViewer>
 </Window>
