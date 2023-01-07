@@ -49,8 +49,8 @@ public class TestRepository
     public async Task Create_WithValidEntity_ReturnsTrue()
     {
         // Arrange
-        User entity = new User();
-        _mockDbSet.Setup(s => s.AddAsync(entity, default)).ReturnsAsync(entity);
+        User entity = new User { Id = _username, Name = "test" };
+        _mockDbSet.Setup(x => x.AddAsync(entity, It.IsAny<CancellationToken>())).Returns((User model, CancellationToken token) => new ValueTask<EntityEntry<User>>());
         _mockDbContext.Setup(c => c.SaveChangesAsync(default)).ReturnsAsync(1);
 
         // Act
@@ -66,7 +66,7 @@ public class TestRepository
     public async Task Create_WithInvalidEntity_ReturnsFalse()
     {
         // Arrange
-        User entity = new User();
+        User entity = new User { Id = "", Name = "test" };
         _mockDbSet.Setup(s => s.AddAsync(entity, default)).ThrowsAsync(new Exception());
 
         // Act
@@ -82,12 +82,12 @@ public class TestRepository
     public async Task GetById_WithValidId_ReturnsEntity()
     {
         // Arrange
-        User entity = new User();
+        User entity = new User { Id = "1", Name = "test" };
         object id = 1;
         _mockDbSet.Setup(s => s.FindAsync(id)).ReturnsAsync(entity);
 
         // Act
-        User result = await _repository.GetById(id);
+        User? result = await _repository.GetById(id);
 
         // Assert
         Assert.That(result, Is.EqualTo(entity));
@@ -101,7 +101,7 @@ public class TestRepository
         object id = "";
 
         // Act
-        User result = await _repository.GetById(id);
+        User? result = await _repository.GetById(id);
 
         // Assert
         Assert.IsNull(result);
@@ -112,7 +112,8 @@ public class TestRepository
     public async Task GetAll_ReturnsListOfEntities()
     {
         // Arrange
-        List<User> entities = new List<User> { new User(), new User() };
+        List<User> entities = new List<User> { new User() { Id = "123" }, new User() { Id = "456" } };
+
         _mockDbSet.As<IAsyncEnumerable<User>>().Setup(s => s.ToListAsync()).ReturnsAsync(entities);
 
         // Act

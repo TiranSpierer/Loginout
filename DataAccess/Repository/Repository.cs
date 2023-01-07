@@ -61,7 +61,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         {
             try
             {
-                //updatedEntity.CopyValuesTo(entity);
+                updatedEntity.CopyValuesTo(entity);
                 context.Set<T>().Update(entity);
                 await context.SaveChangesAsync();
             }
