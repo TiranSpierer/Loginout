@@ -1,4 +1,5 @@
 ﻿using DataService.Services;
+using Domain.Models;
 using Loginout.Services;
 using Prism.Commands;
 using System;
@@ -18,9 +19,11 @@ public class RegisterViewModel : ViewModelBase
     private string? _password;
     private string? _username;
     private string? _name;
-    private bool _canExecuteLoginCommand;
     private string? _errorMessage;
     private bool _canExecuteRegisterCommand;
+    private bool _isAddUsersSelected;
+    private bool _isDeleteUsersSelected;
+    private bool _isEditUsersSelected;
 
     #endregion
 
@@ -30,7 +33,10 @@ public class RegisterViewModel : ViewModelBase
     {
         _homeNavigationService = navigationService;
         _userService = userService;
+
         _password = string.Empty;
+        SelectedPrivileges = new HashSet<Privilege>();
+
         RegisterCommand = new DelegateCommand(ExecuteRegisterCommandAsync).ObservesCanExecute(() => CanExecuteRegisterCommand);
         CancelCommand = new DelegateCommand(() => _homeNavigationService.Navigate());
     }
@@ -41,6 +47,7 @@ public class RegisterViewModel : ViewModelBase
 
     public DelegateCommand RegisterCommand { get; }
     public DelegateCommand CancelCommand { get; }
+    public HashSet<Privilege> SelectedPrivileges { get; set; }
 
     public string? Password
     {
@@ -71,20 +78,58 @@ public class RegisterViewModel : ViewModelBase
         set => SetProperty(ref _errorMessage, value);
     }
 
-
     public bool CanExecuteRegisterCommand
     {
         get => _canExecuteRegisterCommand;
         set => SetProperty(ref _canExecuteRegisterCommand, value);
     }
 
+    public bool IsAddUsersSelected
+    {
+        get => _isAddUsersSelected;
+        set
+        {
+            SetProperty(ref _isAddUsersSelected, value);
+            UpdatePrivilegesList(Privilege.AddUsers, value);
+        }
+    }
+
+    public bool IsDeleteUsersSelected
+    {
+        get => _isDeleteUsersSelected;
+        set
+        {
+            SetProperty(ref _isDeleteUsersSelected, value);
+            UpdatePrivilegesList(Privilege.DeleteUsers, value);
+        }
+    }
+
+    public bool IsEditUsersSelected
+    {
+        get => _isEditUsersSelected;
+        set
+        {
+            SetProperty(ref _isEditUsersSelected, value);
+            UpdatePrivilegesList(Privilege.EditUsers, value);
+        }
+    }
+
     #endregion
 
     #region Private Methods
 
+    private void UpdatePrivilegesList(Privilege privilege, bool isSelected)
+    {
+
+        if (isSelected)
+            SelectedPrivileges.Add(privilege);
+        else
+            SelectedPrivileges.Remove(privilege);
+    }
+
     private async void ExecuteRegisterCommandAsync()
     {
-        var isRegistered = await _userService.RegisterAsync(Username!, Password!, Name!);
+        var isRegistered = await _userService.RegisterAsync(Username!, Password!, Name!, SelectedPrivileges);
 
         if(isRegistered == false)
         {

@@ -70,7 +70,7 @@ public class HomeViewModel : ViewModelBase
 
     private void ExecuteRemoveUser()
     {
-
+        
     }
 
     private async Task InitTable()

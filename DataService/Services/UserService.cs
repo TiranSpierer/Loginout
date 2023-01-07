@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using DataAccess.Repository;
 using DataAccess.DataModels;
 using System.Collections.Generic;
+using Domain.Models;
 
 namespace DataService.Services;
 
@@ -33,17 +34,33 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task<bool> RegisterAsync(string username, string password = "", string name = "")
+    public async Task<bool> RegisterAsync(string username, string password = "", string name = "", IEnumerable<Privilege>? privileges = null)
     {
         bool result = false;
         if (string.IsNullOrEmpty(username) == false)
         {
+
+
             var user = new User
             {
                 Id = username,
                 Password = _passwordHasher.HashPassword(new User(), password),
                 Name = name
             };
+
+            if (privileges != null)
+            {
+                user.UserPrivileges = new List<UserPrivilege>();
+
+                foreach (var privilege in privileges)
+                {
+                    user.UserPrivileges.Add(new UserPrivilege
+                    {
+                        UserId = user.Id,
+                        Privilege = privilege
+                    });
+                }
+            }
 
             result = await _repository.Create(user);
         }
