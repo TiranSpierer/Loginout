@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.DataModels;
 
@@ -9,8 +11,8 @@ public class User : IEntity<User>
     public string? Name { get; set; }
     public string? Password { get; set; }
 
-    //public ICollection<UserPrivilege>? UserPrivileges { get; set; }
-    //public virtual ICollection<Procedure> Procedures { get; set; }
+    public ICollection<UserPrivilege>? UserPrivileges { get; set; }
+    public virtual ICollection<Procedure> Procedures { get; set; }
 
     #region Implementation of IEntity<in User>
     public void CopyValuesTo(User entity)
@@ -18,7 +20,7 @@ public class User : IEntity<User>
         entity.Id = Id;
         entity.Name = Name;
         entity.Password = Password;
-        //entity.UserPrivileges = UserPrivileges;
+        entity.UserPrivileges = UserPrivileges;
     }
 
     #endregion

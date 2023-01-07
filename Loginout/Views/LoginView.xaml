@@ -72,24 +72,14 @@
 
                 <Button Grid.Row="2" Margin="0 10"
                         HorizontalAlignment="Center"
-                        Command="{Binding LoginCommand}"
+                        Command="{Binding NavigateToHomeCommand}"
                         Content="Login"
                         IsDefault="True" />
 
-                <Button Grid.Row="3" Margin="0 10 0 0"
-                        HorizontalAlignment="Center"
-                        Background="Transparent"
-                        Command="{Binding RegisterCommand}"
-                        Content="Don't have an account?"
-                        FontSize="14"
-                        Foreground="Blue" />
-
                 <TextBlock Grid.Row="4" Margin="0 10 0 0"
                            HorizontalAlignment="Center"
-                           DataContext="{Binding ErrorMessageViewModel}"
-                           Foreground="DarkRed"
-                           Text="{Binding Message}"
-                           Visibility="{Binding HasMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                           Text="{Binding ErrorMessage}"
+                           Foreground="DarkRed" />
             </Grid>
         </Grid>
     </Border>

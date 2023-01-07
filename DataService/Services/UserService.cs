@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using DataAccess.Repository;
 using DataAccess.DataModels;
+using System.Collections.Generic;
 
 namespace DataService.Services;
 
@@ -48,5 +49,11 @@ public class UserService : IUserService
         }
 
         return result;
+    }
+
+    public async Task<IEnumerable<User>> GetAllUsers()
+    {
+        var users = await _repository.GetAllIncluding(includeProperties: u => u.UserPrivileges!);
+        return users;
     }
 }

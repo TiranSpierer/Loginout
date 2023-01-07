@@ -1,7 +1,10 @@
 ﻿using DataAccess.Context;
 using DataAccess.DataModels;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repository;
@@ -17,7 +20,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     #region Implementation of IRepository<T>
 
-    public virtual async Task<bool> Create(T entity)
+    public async Task<bool> Create(T entity)
     {
         using EnvueDbContext context = _dbContextFactory.CreateDbContext();
         var isEntityCreated = true;
@@ -34,7 +37,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return isEntityCreated;
     }
 
-    public virtual async Task<T?> GetById(params object[] id)
+    public async Task<T?> GetById(params object[] id)
     {
         using EnvueDbContext context = _dbContextFactory.CreateDbContext();
         T? entity = null;
@@ -46,13 +49,25 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return entity;
     }
 
-    public virtual async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<T>> GetAll()
     {
         using EnvueDbContext context = _dbContextFactory.CreateDbContext();
         return await context.Set<T>().ToListAsync();
     }
 
-    public virtual async Task Update(object id, T updatedEntity)
+    public async Task<IEnumerable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
+    {
+        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        IQueryable<T> query = context.Set<T>();
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+        return await query.ToListAsync();
+    }
+
+
+    public async Task Update(object id, T updatedEntity)
     {
         using EnvueDbContext context = _dbContextFactory.CreateDbContext();
         var entity = await GetById(id);
@@ -73,7 +88,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         }
     }
 
-    public virtual async Task Delete(object id)
+    public async Task Delete(object id)
     {
         using EnvueDbContext context = _dbContextFactory.CreateDbContext();
         var entity = await GetById(id);

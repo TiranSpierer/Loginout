@@ -32,7 +32,6 @@ public partial class App : Application
         EnvueDbContextFactory envueDbContextFactory = _host.Services.GetRequiredService<EnvueDbContextFactory>();
         using (EnvueDbContext dbContext = envueDbContextFactory.CreateDbContext())
         {
-            
             dbContext.Database.Migrate();
         }
 

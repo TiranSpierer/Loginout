@@ -12,7 +12,7 @@ public static class AddViewModelsHostBuilderExtensions
     {
         hostBuilder.ConfigureServices(services =>
         {
-            services.AddSingleton<HomeViewModel>();
+            services.AddTransient<HomeViewModel>();
             services.AddSingleton<NavigationService<HomeViewModel>>();
             services.AddSingleton<Func<HomeViewModel>>((s) => () => s.GetRequiredService<HomeViewModel>());
 

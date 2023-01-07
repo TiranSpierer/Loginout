@@ -9,29 +9,30 @@ public class LoginViewModel : ViewModelBase
 {
     #region Privates
 
-    private readonly NavigationService<HomeViewModel> _navigationService;
+    private readonly NavigationService<HomeViewModel> _homeNavigationService;
     private readonly IUserService _userService;
     private string? _password;
     private string? _username;
     private bool _canExecuteLoginCommand;
+    private string? _errorMessage;
 
     #endregion
 
     #region Constructors
 
-    public LoginViewModel(NavigationService<HomeViewModel> navigationService, IUserService userService)
+    public LoginViewModel(NavigationService<HomeViewModel> homeNavigationService, IUserService userService)
     {
-        _navigationService = navigationService;
+        _homeNavigationService = homeNavigationService;
         _userService = userService;
         _password = string.Empty;
-        LoginCommand = new DelegateCommand(ExecuteLoginCommandAsync).ObservesCanExecute(() => CanExecuteLoginCommand);
+        NavigateToHomeCommand = new DelegateCommand(ExecuteLoginCommandAsync).ObservesCanExecute(() => CanExecuteLoginCommand);
     }
 
     #endregion
 
     #region Public Properties
 
-    public DelegateCommand LoginCommand { get; }
+    public DelegateCommand NavigateToHomeCommand { get; }
 
     public bool CanExecuteLoginCommand
     {
@@ -59,23 +60,31 @@ public class LoginViewModel : ViewModelBase
         }
     }
 
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        set => SetProperty(ref _errorMessage, value);
+    }
+
     #endregion
 
     #region Private Methods
 
     private void ExecuteLoginCommandAsync()
     {
-        _navigationService.Navigate();
+        _homeNavigationService.Navigate();
     }
 
     private async Task CanExecuteLoginCommandAsync()
     {
         if(string.IsNullOrEmpty(Username) == false)
         {
+            ErrorMessage = "";
             CanExecuteLoginCommand = await _userService.AuthenticateAsync(Username, Password!);
         }
         else
         {
+            ErrorMessage = "Wrong username or password";
             CanExecuteLoginCommand = false;
         }
     }

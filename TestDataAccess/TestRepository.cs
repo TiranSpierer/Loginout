@@ -1,4 +1,7 @@
-﻿namespace TestDataAccess;
+﻿using DataAccess.DataModels;
+using System.Threading.Tasks;
+
+namespace TestDataAccess;
 
 public class TestRepository
 {
@@ -112,15 +115,21 @@ public class TestRepository
     public async Task GetAll_ReturnsListOfEntities()
     {
         // Arrange
-        List<User> entities = new List<User> { new User() { Id = "123" }, new User() { Id = "456" } };
+        List<User> entities = new() { new User() { Id = "123" }, new User() { Id = "456" } };
 
-        _mockDbSet.As<IAsyncEnumerable<User>>().Setup(s => s.ToListAsync()).ReturnsAsync(entities);
+
+        _mockDbSet.Setup(async s => await s.ToListAsync()).ReturnsAsync(entities);
+
+
 
         // Act
         IEnumerable<User> result = await _repository.GetAll();
 
         // Assert
         Assert.That(result, Is.EqualTo(entities));
+
+        Task<List<User>> ToListAsync(CancellationToken cancellationToken = default);
+
         _mockDbSet.Verify(s => s.ToListAsync(), Times.Once());
     }
 
