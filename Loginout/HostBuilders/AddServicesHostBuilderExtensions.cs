@@ -1,5 +1,6 @@
-﻿using DAL.DataModels;
-using DAL.Repository;
+﻿using DataAccess.DataModels;
+using DataAccess.Repository;
+using DataService.Initialization;
 using DataService.Services;
 using Loginout.Stores;
 using Microsoft.AspNetCore.Identity;
@@ -12,10 +13,14 @@ public static class AddServicesHostBuilderExtensions
 {
     public static IHostBuilder AddServices(this IHostBuilder host)
     {
-        host.ConfigureServices(services =>
+        host.ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IRepository<User>, Repository<User>>();
+
+            services.AddTransient<DbInitializor>();
+
+            services.AddSingleton(hostContext.Configuration);
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 

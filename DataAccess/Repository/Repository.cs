@@ -1,9 +1,9 @@
-﻿using DAL.Context;
+﻿using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DAL.Repository;
+namespace DataAccess.Repository;
 
 public class Repository<T> : IRepository<T> where T : class
 {

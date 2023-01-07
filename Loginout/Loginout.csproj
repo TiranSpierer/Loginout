@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DataService\DataService.csproj" />
     <Resource Include="Resources\login-background.jpg" />
 	  

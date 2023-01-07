@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DAL.DataModels;
+namespace DataAccess.DataModels;
 
 public class User
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DAL.Repository;
+namespace DataAccess.Repository;
 
 public interface IRepository<T> where T : class
 {

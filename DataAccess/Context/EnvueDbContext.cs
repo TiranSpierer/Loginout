@@ -1,7 +1,7 @@
-﻿using DAL.DataModels;
+﻿using DataAccess.DataModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Context;
+namespace DataAccess.Context;
 
 public class EnvueDbContext : DbContext
 {

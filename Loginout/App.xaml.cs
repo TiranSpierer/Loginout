@@ -1,17 +1,11 @@
-﻿using DAL.Context;
-using DAL.DataModels;
-using DAL.Repository;
-using DataService.Services;
+﻿using DataAccess.Context;
+using DataService.Initialization;
 using Loginout.HostBuilders;
 using Loginout.Services;
-using Loginout.Stores;
 using Loginout.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Windows;
 
 namespace Loginout;
@@ -40,9 +34,9 @@ public partial class App : Application
         {
             
             dbContext.Database.Migrate();
-
-            
         }
+
+        _host.Services.GetRequiredService<DbInitializor>().Initialize();
 
         NavigationService<LoginViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
         navigationService.Navigate();

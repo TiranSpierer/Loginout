@@ -1,8 +1,8 @@
 ﻿
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using DAL.Repository;
-using DAL.DataModels;
+using DataAccess.Repository;
+using DataAccess.DataModels;
 
 namespace DataService.Services;
 

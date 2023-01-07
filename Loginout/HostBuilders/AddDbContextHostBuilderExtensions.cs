@@ -1,6 +1,6 @@
 ﻿
 
-using DAL.Context;
+using DataAccess.Context;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
