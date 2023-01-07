@@ -5,3 +5,6 @@ global using System.Threading.Tasks;
 global using DataAccess.Context;
 global using DataAccess.Repository;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.InMemory;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;

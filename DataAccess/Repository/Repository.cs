@@ -1,11 +1,12 @@
 ﻿using DataAccess.Context;
+using DataAccess.DataModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repository;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 {
     private readonly EnvueDbContextFactory _dbContextFactory;
 

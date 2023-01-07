@@ -1,41 +1,55 @@
-﻿
-
-
-namespace TestDataAccess;
+﻿namespace TestDataAccess;
 
 public class TestRepository
 {
     private Mock<EnvueDbContextFactory> _mockDbContextFactory;
-    private Mock<DbContext> _mockDbContext;
+    private Mock<EnvueDbContext> _mockDbContext;
     private Mock<DbSet<User>> _mockDbSet;
+
     private Repository<User> _repository;
+    private string _connectionString;
+    private string _username;
+
+    [OneTimeSetUp]
+    public void OneTimeSetup()
+    {
+        // Build the configuration object
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
+        _connectionString = configuration.GetConnectionString("Default")!;
+    }
 
     [SetUp]
     public void SetUp()
     {
-        _mockDbContextFactory = new Mock<EnvueDbContextFactory>();
-        _mockDbContext = new Mock<DbContext>();
         _mockDbSet = new Mock<DbSet<User>>();
-
-        _mockDbContextFactory.Setup(f => f.CreateDbContext()).Returns(_mockDbContext.Object);
-        _mockDbContext.Setup(c => c.Set<User>()).Returns(_mockDbSet.Object);
+        DbContextOptions options = new DbContextOptionsBuilder().UseInMemoryDatabase(_connectionString).Options;
+        _mockDbContext = new Mock<EnvueDbContext>(options);
+        _mockDbContextFactory = new Mock<EnvueDbContextFactory>(_connectionString);
 
         _repository = new Repository<User>(_mockDbContextFactory.Object);
+
+        _username = Guid.NewGuid().ToString();
     }
 
     [TearDown]
-    public void TearDown()
+    public async Task TearDown()
     {
-        _mockDbContextFactory.ReseUser();
-        _mockDbContext.ReseUser();
-        _mockDbSet.ReseUser();
+        // Delete the record with the random ID from the database
+        await _repository.Delete(_username);
+
+        _mockDbContextFactory.Reset();
+        _mockDbContext.Reset();
+        _mockDbSet.Reset();
     }
 
     [Test]
     public async Task Create_WithValidEntity_ReturnsTrue()
     {
         // Arrange
-        T entity = new User();
+        User entity = new User();
         _mockDbSet.Setup(s => s.AddAsync(entity, default)).ReturnsAsync(entity);
         _mockDbContext.Setup(c => c.SaveChangesAsync(default)).ReturnsAsync(1);
 
@@ -98,11 +112,11 @@ public class TestRepository
     public async Task GetAll_ReturnsListOfEntities()
     {
         // Arrange
-        List<User>entities = new List<User>{ new User(), new User() };
+        List<User> entities = new List<User> { new User(), new User() };
         _mockDbSet.As<IAsyncEnumerable<User>>().Setup(s => s.ToListAsync()).ReturnsAsync(entities);
 
         // Act
-        IEnumerable<User>result = await _repository.GetAll();
+        IEnumerable<User> result = await _repository.GetAll();
 
         // Assert
         Assert.That(result, Is.EqualTo(entities));

@@ -78,7 +78,6 @@ public class LoginViewModel : ViewModelBase
         {
             CanExecuteLoginCommand = false;
         }
-        CanExecuteLoginCommand = true;
     }
 
     #endregion

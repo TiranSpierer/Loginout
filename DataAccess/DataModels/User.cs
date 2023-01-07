@@ -2,7 +2,7 @@
 
 namespace DataAccess.DataModels;
 
-public class User
+public class User : IEntity<User>
 {
     [Key]
     public string Id { get; set; }
@@ -11,4 +11,15 @@ public class User
 
     //public ICollection<UserPrivilege>? UserPrivileges { get; set; }
     //public virtual ICollection<Procedure> Procedures { get; set; }
+
+    #region Implementation of IEntity<in User>
+    public void CopyValuesTo(User entity)
+    {
+        entity.Id = Id;
+        entity.Name = Name;
+        entity.Password = Password;
+        //entity.UserPrivileges = UserPrivileges;
+    }
+
+    #endregion
 }
