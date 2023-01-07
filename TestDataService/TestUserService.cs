@@ -54,7 +54,7 @@ public class TestUserService
     public async Task AuthenticateAsync_WithInvalidUsername_ReturnsFalse(string username, string password)
     {
         // Arrange
-        _mockRepository.Setup(r => r.GetById(username)).ReturnsAsync((User)null);
+        _mockRepository.Setup(r => r.GetById(username)).ReturnsAsync((User?)null);
 
         // Act
         bool result = await _userService.AuthenticateAsync(username, password);
