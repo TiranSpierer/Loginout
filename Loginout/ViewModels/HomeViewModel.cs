@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Loginout.ViewModels
 {
-    internal class HomeViewModel
+    internal class HomeViewModel : ViewModelBase
     {
     }
 }

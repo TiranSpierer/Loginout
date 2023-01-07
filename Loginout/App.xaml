@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Loginout"
              xmlns:views="clr-namespace:Loginout.Views"
              xmlns:viewmodels="clr-namespace:Loginout.ViewModels">
+
     
     <Application.Resources>
         
@@ -19,10 +20,10 @@
             <views:RegisterView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewmodels:EditUserViewModel}">
+        <!--<DataTemplate DataType="{x:Type viewmodels:EditUserViewModel}">
             <views:EditUserView />
-            
-        </DataTemplate>
+        </DataTemplate>-->
 
     </Application.Resources>
+    
 </Application>

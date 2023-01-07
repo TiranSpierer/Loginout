@@ -1,8 +1,17 @@
-﻿using Loginout.HostBuilders;
+﻿using DAL.Context;
+using DAL.DataModels;
+using DAL.Repository;
+using DataService.Services;
+using Loginout.HostBuilders;
+using Loginout.Services;
+using Loginout.Stores;
 using Loginout.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows;
 
 namespace Loginout;
@@ -11,43 +20,66 @@ public partial class App : Application
 {
     private readonly IHost _host;
 
+    //public App()
+    //{
+    //    _host = Host.CreateDefaultBuilder()
+    //        .AddViewModels()
+    //        .AddViews()
+    //        .AddDbContext()
+    //        .AddServices()
+    //        .Build();
+    //}
+
     public App()
     {
-        _host = Host.CreateDefaultBuilder()
-            .AddViewModels()
-            .ConfigureServices((hostContext, services) =>
-            {
-                string connectionString = hostContext.Configuration.GetConnectionString("Default");
+        var host = Host.CreateDefaultBuilder();
 
-                services.AddSingleton(new ENvueDbContextFactory(connectionString));
-                services.AddSingleton<IReservationProvider, DatabaseReservationProvider>();
-                services.AddSingleton<IReservationCreator, DatabaseReservationCreator>();
-                services.AddSingleton<IReservationConflictValidator, DatabaseReservationConflictValidator>();
+        host.ConfigureServices((context, services) =>
+        {
+            string connectionString = context.Configuration.GetConnectionString("Default")!;
+            services.AddSingleton(new EnvueDbContextFactory(connectionString!));
+            services.AddDbContext<EnvueDbContext>(options => options.UseSqlite(connectionString));
 
-                services.AddTransient<ReservationBook>();
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IRepository<User>, Repository<User>>();
 
-                string hotelName = hostContext.Configuration.GetValue<string>("HotelName");
-                services.AddSingleton((s) => new Hotel(hotelName, s.GetRequiredService<ReservationBook>()));
+            services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
-                services.AddSingleton<HotelStore>();
-                services.AddSingleton<NavigationStore>();
+            services.AddSingleton<NavigationStore>();
 
-                services.AddSingleton(s => new MainWindow()
-                {
-                    DataContext = s.GetRequiredService<MainViewModel>()
-                });
-            })
-            .Build();
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<NavigationService<HomeViewModel>>();
+            services.AddSingleton<Func<HomeViewModel>>((s) => () => s.GetRequiredService<HomeViewModel>());
+
+            services.AddTransient<LoginViewModel>();
+            services.AddSingleton<NavigationService<LoginViewModel>>();
+            services.AddSingleton<Func<LoginViewModel>>((s) => () => s.GetRequiredService<LoginViewModel>());
+
+            services.AddSingleton<RegisterViewModel>();
+            services.AddSingleton<NavigationService<RegisterViewModel>>();
+            services.AddSingleton<Func<RegisterViewModel>>((s) => () => s.GetRequiredService<RegisterViewModel>());
+
+            services.AddSingleton<MainViewModel>();
+
+            services.AddSingleton(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+        });
+
+        _host = host.Build();
+
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
         _host.Start();
 
-        ENvueDbContextFactory reservoomDbContextFactory = _host.Services.GetRequiredService<ENvueDbContextFactory>();
-        using (ENvueDbContext dbContext = reservoomDbContextFactory.CreateDbContext())
+
+        EnvueDbContextFactory envueDbContextFactory = _host.Services.GetRequiredService<EnvueDbContextFactory>();
+        using (EnvueDbContext dbContext = envueDbContextFactory.CreateDbContext())
         {
+            
             dbContext.Database.Migrate();
+
+            
         }
 
         NavigationService<LoginViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
