@@ -112,7 +112,7 @@
 
                     <Button Grid.Column="1" Margin="10"
                             HorizontalAlignment="Left"
-                            Command="{Binding GoBackCommand}"
+                            Command="{Binding CancelCommand}"
                             Content="Cancel"
                             IsDefault="True" />
                 </Grid>

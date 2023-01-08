@@ -38,7 +38,7 @@ public class TestUserService
             Id = username,
             Password = _mockPasswordHasher.Object.HashPassword(new User(), password)
         };
-        _mockRepository.Setup(r => r.GetById(username)).ReturnsAsync(user);
+        _mockRepository.Setup(r => r.GetByIdAsync(username)).ReturnsAsync(user);
         _mockPasswordHasher.Setup(ph => ph.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), password)).Returns(PasswordVerificationResult.Success);
 
         // Act
@@ -54,7 +54,7 @@ public class TestUserService
     public async Task AuthenticateAsync_WithInvalidUsername_ReturnsFalse(string username, string password)
     {
         // Arrange
-        _mockRepository.Setup(r => r.GetById(username)).ReturnsAsync((User?)null);
+        _mockRepository.Setup(r => r.GetByIdAsync(username)).ReturnsAsync((User?)null);
 
         // Act
         bool result = await _userService.AuthenticateAsync(username, password);
@@ -73,7 +73,7 @@ public class TestUserService
             Id = username,
             Password = _mockPasswordHasher.Object.HashPassword(new User(), "invalid password")
         };
-        _mockRepository.Setup(r => r.GetById(username)).ReturnsAsync(user);
+        _mockRepository.Setup(r => r.GetByIdAsync(username)).ReturnsAsync(user);
         _mockPasswordHasher.Setup(ph => ph.VerifyHashedPassword(user, user.Password, password)).Returns(PasswordVerificationResult.Failed);
 
         // Act
@@ -88,7 +88,7 @@ public class TestUserService
     public async Task RegisterAsync_WithValidUsername_ReturnsTrue(string username, string password, string name)
     {
         // Arrange
-        _mockRepository.Setup(r => r.Create(It.IsAny<User>())).ReturnsAsync(true);
+        _mockRepository.Setup(r => r.CreateAsync(It.IsAny<User>())).ReturnsAsync(true);
 
         // Act
         bool result = await _userService.RegisterAsync(username, password, name);
@@ -116,7 +116,7 @@ public class TestUserService
     public async Task RegisterAsync_WithFailedCreate_ReturnsFalse(string username, string password, string name)
     {
         // Arrange
-        _mockRepository.Setup(r => r.Create(It.IsAny<User>())).ReturnsAsync(false);
+        _mockRepository.Setup(r => r.CreateAsync(It.IsAny<User>())).ReturnsAsync(false);
 
         // Act
         bool result = await _userService.RegisterAsync(username, password, name);

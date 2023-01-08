@@ -14,16 +14,16 @@ public class RegisterViewModel : ViewModelBase
 {
     #region Privates
 
-    private readonly NavigationService<HomeViewModel> _homeNavigationService;
-    private readonly IUserService _userService;
-    private string? _password;
-    private string? _username;
-    private string? _name;
-    private string? _errorMessage;
-    private bool _canExecuteRegisterCommand;
-    private bool _isAddUsersSelected;
-    private bool _isDeleteUsersSelected;
-    private bool _isEditUsersSelected;
+    protected readonly NavigationService<HomeViewModel> _homeNavigationService;
+    protected readonly IUserService _userService;
+    protected string? _password;
+    protected string? _username;
+    protected string? _name;
+    protected string? _errorMessage;
+    protected bool _canExecuteRegisterCommand;
+    protected bool _isAddUsersSelected;
+    protected bool _isDeleteUsersSelected;
+    protected bool _isEditUsersSelected;
 
     #endregion
 
@@ -118,7 +118,7 @@ public class RegisterViewModel : ViewModelBase
 
     #region Private Methods
 
-    private void UpdatePrivilegesList(Privilege privilege, bool isSelected)
+    protected void UpdatePrivilegesList(Privilege privilege, bool isSelected)
     {
 
         if (isSelected)
@@ -127,7 +127,7 @@ public class RegisterViewModel : ViewModelBase
             SelectedPrivileges.Remove(privilege);
     }
 
-    private async void ExecuteRegisterCommandAsync()
+    protected async void ExecuteRegisterCommandAsync()
     {
         var isRegistered = await _userService.RegisterAsync(Username!, Password!, Name!, SelectedPrivileges);
 

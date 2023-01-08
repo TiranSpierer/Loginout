@@ -25,9 +25,9 @@
                 <views:RegisterView />
             </DataTemplate>
 
-            <!--<DataTemplate DataType="{x:Type viewmodels:EditUserViewModel}">
-            <views:EditUserView />
-        </DataTemplate>-->
+            <DataTemplate DataType="{x:Type viewmodels:EditViewModel}">
+                <views:RegisterView />
+            </DataTemplate>
             
         </ResourceDictionary>
     </Application.Resources>

@@ -8,10 +8,10 @@ namespace DataAccess.Repository;
 
 public interface IRepository<T> where T : class, IEntity<T>
 {
-    Task<bool> Create(T entity);
-    Task<T?> GetById(params object[] id);
-    Task<IEnumerable<T>> GetAll();
-    Task<IEnumerable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
-    Task<bool> Update(object id, T updatedEntity);
-    Task Delete(object id);
+    Task<bool> CreateAsync(T entity);
+    Task<T?> GetByIdAsync(params object[] id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<T>> GetAllIncludingPropertiesAsync(params Expression<Func<T, object>>[] includeProperties);
+    Task<bool> UpdateAsync(object id, T updatedEntity);
+    Task<bool> DeleteAsync(object id);
 }

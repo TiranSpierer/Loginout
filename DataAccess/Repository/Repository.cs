@@ -20,7 +20,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     #region Implementation of IRepository<T>
 
-    public async Task<bool> Create(T entity)
+    public async Task<bool> CreateAsync(T entity)
     {
         await using var context = _dbContextFactory.CreateDbContext();
         var isEntityCreated = true;
@@ -37,7 +37,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return isEntityCreated;
     }
 
-    public async Task<T?> GetById(params object[] id)
+    public async Task<T?> GetByIdAsync(params object[] id)
     {
         await using var context = _dbContextFactory.CreateDbContext();
         T? entity = null;
@@ -49,13 +49,13 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return entity;
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
         await using var context = _dbContextFactory.CreateDbContext();
         return await context.Set<T>().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
+    public async Task<IEnumerable<T>> GetAllIncludingPropertiesAsync(params Expression<Func<T, object>>[] includeProperties)
     {
         await using var context = _dbContextFactory.CreateDbContext();
         IQueryable<T> query = context.Set<T>();
@@ -67,10 +67,10 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
     }
 
 
-    public async Task<bool> Update(object id, T updatedEntity)
+    public async Task<bool> UpdateAsync(object id, T updatedEntity)
     {
         await using var context   = _dbContextFactory.CreateDbContext();
-        var             entity    = await GetById(id);
+        var             entity    = await GetByIdAsync(id);
         var             isUpdated = true;
 
         if (entity != null)
@@ -90,15 +90,27 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return isUpdated;
     }
 
-    public async Task Delete(object id)
+    public async Task<bool> DeleteAsync(object id)
     {
-        await using var context = _dbContextFactory.CreateDbContext();
-        var entity = await GetById(id);
+        await using var context   = _dbContextFactory.CreateDbContext();
+        var             entity    = await GetByIdAsync(id);
+        var             isDeleted = false;
+
         if (entity != null)
         {
-            context.Set<T>().Remove(entity);
-            await context.SaveChangesAsync();
+            try
+            {
+                context.Set<T>().Remove(entity);
+                await context.SaveChangesAsync();
+                isDeleted = true;
+            }
+            catch
+            {
+                isDeleted = false;
+            }
         }
+
+        return isDeleted;
     }
 
 #endregion

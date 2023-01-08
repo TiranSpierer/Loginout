@@ -11,20 +11,22 @@ public class HomeViewModel : ViewModelBase
 {
     #region Privates
 
-    private readonly NavigationService<LoginViewModel> _loginNavigationService;
+    private readonly NavigationService<LoginViewModel>    _loginNavigationService;
     private readonly NavigationService<RegisterViewModel> _registerNavigationService;
-    private readonly IUserService _userService;
-    private User? _selectedUser;
+    private readonly NavigationService<EditViewModel>     _editNavigationService;
+    private readonly IUserService                         _userService;
+    private          User?                                _selectedUser;
 
-    #endregion
+#endregion
 
     #region Constructors
 
-    public HomeViewModel(NavigationService<LoginViewModel> loginNavigationService, NavigationService<RegisterViewModel> registerNavigationService, IUserService userService)
+    public HomeViewModel(NavigationService<LoginViewModel> loginNavigationService, NavigationService<RegisterViewModel> registerNavigationService, NavigationService<EditViewModel> editNavigationService, IUserService userService)
     {
-        _loginNavigationService = loginNavigationService;
+        _loginNavigationService    = loginNavigationService;
         _registerNavigationService = registerNavigationService;
-        _userService = userService;
+        _editNavigationService     = editNavigationService;
+        _userService               = userService;
 
         NavigateToLoginCommand = new DelegateCommand(() => _loginNavigationService.Navigate());
         NavigateToRegisterCommand = new DelegateCommand(() => _registerNavigationService.Navigate());
@@ -49,11 +51,7 @@ public class HomeViewModel : ViewModelBase
     public User? SelectedUser
     {
         get => _selectedUser;
-        set
-        {
-            SetProperty(ref _selectedUser, value);
-            //CanExecuteRemoveCommand = CanExecuteEditCommand = value != null;
-        }
+        set => SetProperty(ref _selectedUser, value);
     }
     #endregion
 
@@ -61,12 +59,15 @@ public class HomeViewModel : ViewModelBase
 
     private void ExecuteNavigateToEdit()
     {
-        
+        _editNavigationService.Navigate();
     }
 
-    private void ExecuteRemoveUser()
+    private async void ExecuteRemoveUser()
     {
-        
+        if (SelectedUser != null)
+        {
+            await _userService.DeleteAsync(SelectedUser.Id);
+        }
     }
 
     private async Task InitTable()

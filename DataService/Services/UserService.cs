@@ -21,7 +21,7 @@ public class UserService : IUserService
 
     public async Task<bool> AuthenticateAsync(string username, string password = "")
     {
-        var user = await _repository.GetById(username);
+        var user = await _repository.GetByIdAsync(username);
         bool result = false;
 
         if (user != null)
@@ -62,7 +62,7 @@ public class UserService : IUserService
                 }
             }
 
-            result = await _repository.Create(user);
+            result = await _repository.CreateAsync(user);
         }
 
         return result;
@@ -70,29 +70,33 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
-        var users = await _repository.GetAllIncluding(includeProperties: u => u.UserPrivileges!);
+        var users = await _repository.GetAllIncludingPropertiesAsync(includeProperties: u => u.UserPrivileges!);
         return users;
     }
 
     public async Task<bool> EditAsync(string originalUsername, User updatedUser)
     {
         var isEdited = false;
-        var user     = await _repository.GetById(originalUsername);
+        var user     = await _repository.GetByIdAsync(originalUsername);
 
         if (user != null)
         {
-            if (originalUsername != updatedUser.Id && await _repository.GetById(updatedUser.Id) == null)
+            if (originalUsername != updatedUser.Id && await _repository.GetByIdAsync(updatedUser.Id) == null)
             {
-                await _repository.Delete(originalUsername);
-                isEdited = await _repository.Create(updatedUser);
+                await _repository.DeleteAsync(originalUsername);
+                isEdited = await _repository.CreateAsync(updatedUser);
             }
             else
             {
-                isEdited = await _repository.Update(originalUsername, updatedUser);
+                isEdited = await _repository.UpdateAsync(originalUsername, updatedUser);
             }
         }
 
         return isEdited;
     }
 
+    public async Task<bool> DeleteAsync(string username)
+    {
+        return await _repository.DeleteAsync(username);
+    }
 }
