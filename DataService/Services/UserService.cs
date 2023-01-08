@@ -1,9 +1,9 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using DataAccess.Repository;
 using DataAccess.DataModels;
 using System.Collections.Generic;
+using System.Linq;
 using Domain.Models;
 
 namespace DataService.Services;
@@ -36,7 +36,7 @@ public class UserService : IUserService
 
     public async Task<bool> RegisterAsync(string username, string password = "", string name = "", IEnumerable<Privilege>? privileges = null)
     {
-        bool result = false;
+        var result = false;
         if (string.IsNullOrEmpty(username) == false)
         {
 
@@ -48,19 +48,11 @@ public class UserService : IUserService
                 Name = name
             };
 
-            if (privileges != null)
-            {
-                user.UserPrivileges = new List<UserPrivilege>();
-
-                foreach (var privilege in privileges)
-                {
-                    user.UserPrivileges.Add(new UserPrivilege
-                    {
-                        UserId = user.Id,
-                        Privilege = privilege
-                    });
-                }
-            }
+            user.UserPrivileges = privileges?.Select(privilege => new UserPrivilege
+                                                                  {
+                                                                      UserId    = user.Id,
+                                                                      Privilege = privilege
+                                                                  }).ToList();
 
             result = await _repository.CreateAsync(user);
         }
@@ -81,10 +73,13 @@ public class UserService : IUserService
 
         if (user != null)
         {
-            if (originalUsername != updatedUser.Id && await _repository.GetByIdAsync(updatedUser.Id) == null)
+            if (originalUsername != updatedUser.Id)
             {
-                await _repository.DeleteAsync(originalUsername);
-                isEdited = await _repository.CreateAsync(updatedUser);
+                if (await _repository.GetByIdAsync(updatedUser.Id) == null)
+                {
+                    await _repository.DeleteAsync(originalUsername);
+                    isEdited = await _repository.CreateAsync(updatedUser);
+                }
             }
             else
             {

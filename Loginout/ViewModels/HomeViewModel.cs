@@ -66,7 +66,8 @@ public class HomeViewModel : ViewModelBase
     {
         if (SelectedUser != null)
         {
-            await _userService.DeleteAsync(SelectedUser.Id);
+            var isDeleted = await _userService.DeleteAsync(SelectedUser.Id);
+            await InitTable();
         }
     }
 

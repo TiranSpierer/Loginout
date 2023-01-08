@@ -53,7 +53,7 @@
                 <Button Command="{Binding NavigateToRegisterCommand}" Margin="10" Width="100">
                     <TextBlock Text="Add" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Button>
-                <Button Command="{Binding RemoveUsersCommand}" Margin="10" Width="100">
+                <Button Command="{Binding RemoveUserCommand}" Margin="10" Width="100">
                     <TextBlock Text="Remove" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Button>
                 <Button Command="{Binding NavigateToEditCommand}" Margin="10" Width="100">
