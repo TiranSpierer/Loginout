@@ -26,7 +26,6 @@ public class Patient : IEntity<Patient>
 
     public void CopyValuesTo(Patient entity)
     {
-        entity.Id = Id;
         entity.Name = Name;
         entity.DateOfBirth = DateOfBirth;
     }

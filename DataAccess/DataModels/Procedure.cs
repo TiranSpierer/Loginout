@@ -21,7 +21,6 @@ public class Procedure : IEntity<Procedure>
 
     public void CopyValuesTo(Procedure entity)
     {
-        entity.Id        = Id;
         entity.PatientId = PatientId;
         entity.UserId    = UserId;
         entity.Patient   = Patient;

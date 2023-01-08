@@ -22,7 +22,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     public async Task<bool> Create(T entity)
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        await using var context = _dbContextFactory.CreateDbContext();
         var isEntityCreated = true;
         try
         {
@@ -39,7 +39,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     public async Task<T?> GetById(params object[] id)
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        await using var context = _dbContextFactory.CreateDbContext();
         T? entity = null;
 
         if (IsIdValid(id))
@@ -51,13 +51,13 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     public async Task<IEnumerable<T>> GetAll()
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        await using var context = _dbContextFactory.CreateDbContext();
         return await context.Set<T>().ToListAsync();
     }
 
     public async Task<IEnumerable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties)
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        await using var context = _dbContextFactory.CreateDbContext();
         IQueryable<T> query = context.Set<T>();
         foreach (var includeProperty in includeProperties)
         {
@@ -67,10 +67,11 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
     }
 
 
-    public async Task Update(object id, T updatedEntity)
+    public async Task<bool> Update(object id, T updatedEntity)
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
-        var entity = await GetById(id);
+        await using var context   = _dbContextFactory.CreateDbContext();
+        var             entity    = await GetById(id);
+        var             isUpdated = true;
 
         if (entity != null)
         {
@@ -82,15 +83,16 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
             }
             catch
             {
-                await Delete(entity);
-                await Create(updatedEntity);
+                isUpdated = false;
             }
         }
+
+        return isUpdated;
     }
 
     public async Task Delete(object id)
     {
-        using EnvueDbContext context = _dbContextFactory.CreateDbContext();
+        await using var context = _dbContextFactory.CreateDbContext();
         var entity = await GetById(id);
         if (entity != null)
         {

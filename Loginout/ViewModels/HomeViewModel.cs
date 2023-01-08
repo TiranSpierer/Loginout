@@ -2,11 +2,7 @@
 using DataService.Services;
 using Loginout.Services;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Loginout.ViewModels;
@@ -77,7 +73,7 @@ public class HomeViewModel : ViewModelBase
     {
         Users.Clear();
 
-        var freshUsers = await _userService.GetAllUsers();
+        var freshUsers = await _userService.GetAllUsersAsync();
         foreach (var user in freshUsers)
         {
             Users.Add(user);

@@ -36,7 +36,6 @@ public class Frame : IEntity<Frame>
 
     public void CopyValuesTo(Frame entity)
     {
-        entity.Id          = Id;
         entity.RefX        = RefX;
         entity.RefY        = RefY;
         entity.RefZ        = RefZ;

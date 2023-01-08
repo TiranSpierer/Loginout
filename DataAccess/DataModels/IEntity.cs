@@ -6,5 +6,9 @@ namespace DataAccess.DataModels;
 
 public interface IEntity<in T> where T : class
 {
+    /// <summary>
+    /// Don't copy over ID
+    /// </summary>
+    /// <param name="entity"></param>
     void CopyValuesTo(T entity);
 }

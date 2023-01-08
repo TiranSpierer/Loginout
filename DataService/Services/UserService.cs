@@ -68,9 +68,31 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task<IEnumerable<User>> GetAllUsers()
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         var users = await _repository.GetAllIncluding(includeProperties: u => u.UserPrivileges!);
         return users;
     }
+
+    public async Task<bool> EditAsync(string originalUsername, User updatedUser)
+    {
+        var isEdited = false;
+        var user     = await _repository.GetById(originalUsername);
+
+        if (user != null)
+        {
+            if (originalUsername != updatedUser.Id && await _repository.GetById(updatedUser.Id) == null)
+            {
+                await _repository.Delete(originalUsername);
+                isEdited = await _repository.Create(updatedUser);
+            }
+            else
+            {
+                isEdited = await _repository.Update(originalUsername, updatedUser);
+            }
+        }
+
+        return isEdited;
+    }
+
 }

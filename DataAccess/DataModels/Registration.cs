@@ -19,7 +19,6 @@ public class Registration : IEntity<Registration>
     #region Implementation of IEntity<in Registration>
     public void     CopyValuesTo(Registration entity)
     {
-        entity.ProcedureId              = ProcedureId;
         entity.XiphoidX  = XiphoidX;
         entity.XiphoidY  = XiphoidY;
         entity.XiphoidZ  = XiphoidZ;

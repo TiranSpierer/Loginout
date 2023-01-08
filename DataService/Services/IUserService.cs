@@ -7,7 +7,8 @@ namespace DataService.Services;
 
 public interface IUserService
 {
-    Task<bool> AuthenticateAsync(string username, string password = "");
-    Task<bool> RegisterAsync(string username, string password = "", string name = "", IEnumerable<Privilege>? privileges = null);
-    Task<IEnumerable<User>> GetAllUsers();
+    Task<bool>              AuthenticateAsync(string username, string password = "");
+    Task<bool>              RegisterAsync(string     username, string password = "", string name = "", IEnumerable<Privilege>? privileges = null);
+    Task<IEnumerable<User>> GetAllUsersAsync();
+    Task<bool>              EditAsync(string originalUsername, User updatedUser);
 }

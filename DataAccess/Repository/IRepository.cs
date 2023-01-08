@@ -12,6 +12,6 @@ public interface IRepository<T> where T : class, IEntity<T>
     Task<T?> GetById(params object[] id);
     Task<IEnumerable<T>> GetAll();
     Task<IEnumerable<T>> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
-    Task Update(object id, T updatedEntity);
+    Task<bool> Update(object id, T updatedEntity);
     Task Delete(object id);
 }

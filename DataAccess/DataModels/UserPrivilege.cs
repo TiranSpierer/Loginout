@@ -21,7 +21,6 @@ public class UserPrivilege : IEntity<UserPrivilege>
 
     public void CopyValuesTo(UserPrivilege entity)
     {
-        entity.UserId = UserId;
         entity.Privilege = Privilege;
     }
 

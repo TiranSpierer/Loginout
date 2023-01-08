@@ -17,7 +17,6 @@ public class User : IEntity<User>
     #region Implementation of IEntity<in User>
     public void CopyValuesTo(User entity)
     {
-        entity.Id = Id;
         entity.Name = Name;
         entity.Password = Password;
         entity.UserPrivileges = UserPrivileges;

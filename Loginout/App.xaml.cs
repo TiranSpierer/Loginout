@@ -28,7 +28,6 @@ public partial class App : Application
     {
         _host.Start();
 
-
         EnvueDbContextFactory envueDbContextFactory = _host.Services.GetRequiredService<EnvueDbContextFactory>();
         using (EnvueDbContext dbContext = envueDbContextFactory.CreateDbContext())
         {
