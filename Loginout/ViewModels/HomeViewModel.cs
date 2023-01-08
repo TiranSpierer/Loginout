@@ -2,6 +2,7 @@
 using DataService.Services;
 using Loginout.Services;
 using Prism.Commands;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -11,26 +12,17 @@ public class HomeViewModel : ViewModelBase
 {
     #region Privates
 
-    private readonly NavigationService<LoginViewModel>    _loginNavigationService;
-    private readonly NavigationService<RegisterViewModel> _registerNavigationService;
-    private readonly NavigationService<EditViewModel>     _editNavigationService;
-    private readonly IUserService                         _userService;
-    private          User?                                _selectedUser;
+    private User? _selectedUser;
 
 #endregion
 
     #region Constructors
 
-    public HomeViewModel(NavigationService<LoginViewModel> loginNavigationService, NavigationService<RegisterViewModel> registerNavigationService, NavigationService<EditViewModel> editNavigationService, IUserService userService)
+    public HomeViewModel(NavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
-        _loginNavigationService    = loginNavigationService;
-        _registerNavigationService = registerNavigationService;
-        _editNavigationService     = editNavigationService;
-        _userService               = userService;
-
-        NavigateToLoginCommand = new DelegateCommand(() => _loginNavigationService.Navigate());
-        NavigateToRegisterCommand = new DelegateCommand(() => _registerNavigationService.Navigate());
-        NavigateToEditCommand = new DelegateCommand(ExecuteNavigateToEdit);
+        NavigateToLoginCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(LoginViewModel)));
+        NavigateToRegisterCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(RegisterViewModel)));
+        NavigateToEditCommand = new DelegateCommand(ExecuteEdit, CanExecuteEdit);
         RemoveUserCommand = new DelegateCommand(ExecuteRemoveUser);
 
         Users = new ObservableCollection<User>();
@@ -51,16 +43,16 @@ public class HomeViewModel : ViewModelBase
     public User? SelectedUser
     {
         get => _selectedUser;
-        set => SetProperty(ref _selectedUser, value);
+        set
+        {
+            SetProperty(ref _selectedUser, value);
+            NavigateToEditCommand.RaiseCanExecuteChanged();
+        }
     }
+
     #endregion
 
     #region Private Methods
-
-    private void ExecuteNavigateToEdit()
-    {
-        _editNavigationService.Navigate();
-    }
 
     private async void ExecuteRemoveUser()
     {
@@ -81,6 +73,13 @@ public class HomeViewModel : ViewModelBase
             Users.Add(user);
         }
     }
+
+    private void ExecuteEdit()
+    {
+        _navigationService.Navigate(typeof(EditViewModel), SelectedUser!);
+    }
+
+    private bool CanExecuteEdit() => SelectedUser != null;
 
     #endregion
 }

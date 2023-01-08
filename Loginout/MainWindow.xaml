@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Loginout"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="700" Width="1000">
+        Title="MainWindow" Height="700" Width="1150">
     
     <Window.Background>
         <ImageBrush

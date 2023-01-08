@@ -1,4 +1,6 @@
-﻿using Loginout.Stores;
+﻿using DataService.Services;
+using Loginout.Services;
+using Loginout.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ public class MainViewModel : ViewModelBase
 
     public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-    public MainViewModel(NavigationStore navigationStore)
+    public MainViewModel(NavigationStore navigationStore, NavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
         _navigationStore = navigationStore;
 

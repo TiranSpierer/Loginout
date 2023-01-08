@@ -14,8 +14,6 @@ public class RegisterViewModel : ViewModelBase
 {
     #region Privates
 
-    protected readonly NavigationService<HomeViewModel> _homeNavigationService;
-    protected readonly IUserService _userService;
     protected string? _password;
     protected string? _username;
     protected string? _name;
@@ -29,16 +27,13 @@ public class RegisterViewModel : ViewModelBase
 
     #region Constructors
 
-    public RegisterViewModel(NavigationService<HomeViewModel> navigationService, IUserService userService)
+    public RegisterViewModel(NavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
-        _homeNavigationService = navigationService;
-        _userService = userService;
-
         _password = string.Empty;
         SelectedPrivileges = new HashSet<Privilege>();
 
         RegisterCommand = new DelegateCommand(ExecuteRegisterCommandAsync).ObservesCanExecute(() => CanExecuteRegisterCommand);
-        CancelCommand = new DelegateCommand(() => _homeNavigationService.Navigate());
+        CancelCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(HomeViewModel)));
     }
 
     #endregion
@@ -127,7 +122,7 @@ public class RegisterViewModel : ViewModelBase
             SelectedPrivileges.Remove(privilege);
     }
 
-    protected async void ExecuteRegisterCommandAsync()
+    protected virtual async void ExecuteRegisterCommandAsync()
     {
         var isRegistered = await _userService.RegisterAsync(Username!, Password!, Name!, SelectedPrivileges);
 
@@ -138,7 +133,7 @@ public class RegisterViewModel : ViewModelBase
         else
         {
             ErrorMessage = "";
-            _homeNavigationService.Navigate();
+            _navigationService.Navigate(typeof(HomeViewModel));
         }
     }
 

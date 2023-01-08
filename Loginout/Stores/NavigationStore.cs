@@ -5,7 +5,7 @@ namespace Loginout.Stores
 {
     public class NavigationStore
     {
-        private ViewModelBase _currentViewModel;
+        private ViewModelBase _currentViewModel = null!;
         public ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
@@ -17,6 +17,6 @@ namespace Loginout.Stores
             }
         }
 
-        public event Action CurrentViewModelChanged;
+        public event Action CurrentViewModelChanged = null!;
     }
 }

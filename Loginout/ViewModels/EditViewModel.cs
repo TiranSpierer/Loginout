@@ -4,6 +4,7 @@
 // Class propose:
 
 using System;
+using System.Linq;
 using DataAccess.DataModels;
 using DataService.Services;
 using Domain.Models;
@@ -15,17 +16,20 @@ public class EditViewModel : RegisterViewModel
 {
     #region Privates
 
-
+    private string _originalUsername;
 
     #endregion
 
     #region Constructors
 
-    public EditViewModel(NavigationService<HomeViewModel> navigationService, IUserService userService, User? user = null) : base(navigationService, userService)
+    public EditViewModel(NavigationService navigationService, IUserService userService, User user) : base(navigationService, userService)
     {
-        Name               = user?.Name;
-        Username           = user?.Name;
+        _originalUsername = user.Id;
+
+        Name               = user.Name;
+        Username           = user.Id;
         Password           = string.Empty;
+
         if (user?.UserPrivileges != null)
         {
             foreach (var privilege in user.UserPrivileges)
@@ -64,9 +68,34 @@ public class EditViewModel : RegisterViewModel
 
     #region Private Methods
 
+    protected override async void ExecuteRegisterCommandAsync()
+    {
+        var updatedUser = new User()
+        {
+            Id = Username!,
+            Name = Name,
+            Password = Password,
+            UserPrivileges = (SelectedPrivileges.Select(p => new UserPrivilege()
+            {
+                Privilege = p,
+                UserId = Username!
+            }).ToList())
+        };
 
+        var isUpdated = await _userService.EditAsync(_originalUsername, updatedUser);
+
+        if (isUpdated == false)
+        {
+            ErrorMessage = "something went wrong";
+        }
+        else
+        {
+            ErrorMessage = "";
+            _navigationService.Navigate(typeof(HomeViewModel));
+        }
+    }
 
     #endregion
-    
+
 
 }

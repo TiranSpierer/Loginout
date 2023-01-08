@@ -1,22 +1,42 @@
 ﻿using Loginout.Stores;
 using Loginout.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using System;
 
 namespace Loginout.Services;
 
-public class NavigationService<TViewModel> where TViewModel : ViewModelBase
+public class NavigationService
 {
     private readonly NavigationStore _navigationStore;
-    private readonly Func<TViewModel> _createViewModel;
+    private readonly IServiceProvider _serviceProvider;
 
-    public NavigationService(NavigationStore navigationStore, Func<TViewModel> createViewModel)
+    public NavigationService(NavigationStore navigationStore, IServiceProvider serviceProvider)
     {
         _navigationStore = navigationStore;
-        _createViewModel = createViewModel;
+        _serviceProvider = serviceProvider;
     }
 
-    public void Navigate()
+    public void Navigate(Type viewModelType)
     {
-        _navigationStore.CurrentViewModel = _createViewModel();
+        var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType) as ViewModelBase;
+
+        if(viewModel != null)
+        {
+            _navigationStore.CurrentViewModel = viewModel;
+        }
     }
+
+    public void Navigate(Type viewModelType, params object[] arguments)
+    {
+        var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType, arguments) as ViewModelBase;
+
+        if (viewModel != null)
+        {
+            _navigationStore.CurrentViewModel = viewModel;
+        }
+    }
+
 }
+
+

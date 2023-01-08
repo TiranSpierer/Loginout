@@ -25,4 +25,6 @@ namespace Loginout.Views
             InitializeComponent();
         }
     }
+
+
 }

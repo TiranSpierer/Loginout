@@ -9,8 +9,6 @@ public class LoginViewModel : ViewModelBase
 {
     #region Privates
 
-    private readonly NavigationService<HomeViewModel> _homeNavigationService;
-    private readonly IUserService _userService;
     private string? _password;
     private string? _username;
     private bool _canExecuteLoginCommand;
@@ -20,10 +18,8 @@ public class LoginViewModel : ViewModelBase
 
     #region Constructors
 
-    public LoginViewModel(NavigationService<HomeViewModel> homeNavigationService, IUserService userService)
+    public LoginViewModel(NavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
-        _homeNavigationService = homeNavigationService;
-        _userService = userService;
         _password = string.Empty;
         NavigateToHomeCommand = new DelegateCommand(ExecuteLoginCommandAsync).ObservesCanExecute(() => CanExecuteLoginCommand);
     }
@@ -72,7 +68,7 @@ public class LoginViewModel : ViewModelBase
 
     private void ExecuteLoginCommandAsync()
     {
-        _homeNavigationService.Navigate();
+        _navigationService.Navigate(typeof(HomeViewModel));
     }
 
     private async Task CanExecuteLoginCommandAsync()

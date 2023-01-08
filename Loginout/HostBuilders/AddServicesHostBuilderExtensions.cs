@@ -2,6 +2,7 @@
 using DataAccess.Repository;
 using DataService.Initialization;
 using DataService.Services;
+using Loginout.Services;
 using Loginout.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ public static class AddServicesHostBuilderExtensions
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
+            services.AddTransient<NavigationService>();
             services.AddSingleton<NavigationStore>();
         });
         return host;
