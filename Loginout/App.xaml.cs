@@ -34,7 +34,7 @@ public partial class App : Application
             dbContext.Database.Migrate();
         }
 
-        _host.Services.GetRequiredService<DbInitializor>().Initialize();
+        _host.Services.GetRequiredService<DbInitializer>().Initialize();
 
         NavigationService<LoginViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
         navigationService.Navigate();

@@ -18,7 +18,7 @@ public static class AddServicesHostBuilderExtensions
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IRepository<User>, Repository<User>>();
 
-            services.AddTransient<DbInitializor>();
+            services.AddTransient<DbInitializer>();
 
             services.AddSingleton(hostContext.Configuration);
 

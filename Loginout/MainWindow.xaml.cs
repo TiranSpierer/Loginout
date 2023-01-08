@@ -20,10 +20,10 @@ namespace Loginout
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(object datacontext)
+        public MainWindow(object dataContext)
         {
             InitializeComponent();
-            DataContext = datacontext;
+            DataContext = dataContext;
         }
     }
 }
