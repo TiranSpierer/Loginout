@@ -22,7 +22,7 @@ public class EditViewModel : RegisterViewModel
 
     #region Constructors
 
-    public EditViewModel(NavigationService navigationService, IUserService userService, User user) : base(navigationService, userService)
+    public EditViewModel(INavigationService navigationService, IUserService userService, User user) : base(navigationService, userService)
     {
         _originalUsername = user.Id;
 

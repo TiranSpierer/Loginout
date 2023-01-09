@@ -18,7 +18,7 @@ public class HomeViewModel : ViewModelBase
 
     #region Constructors
 
-    public HomeViewModel(NavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public HomeViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
         NavigateToLoginCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(LoginViewModel)));
         NavigateToRegisterCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(RegisterViewModel)));

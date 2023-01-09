@@ -36,7 +36,7 @@ public partial class App : Application
 
         _host.Services.GetRequiredService<DbInitializer>().Initialize();
 
-        NavigationService navigationService = _host.Services.GetRequiredService<NavigationService>();
+        INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
         navigationService.Navigate(typeof(LoginViewModel));
 
         MainWindow = _host.Services.GetRequiredService<MainWindow>();

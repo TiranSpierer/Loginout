@@ -7,10 +7,10 @@ namespace Loginout.ViewModels;
 
 public class ViewModelBase : BindableBase
 {
-    protected readonly NavigationService _navigationService;
+    protected readonly INavigationService _navigationService;
     protected readonly IUserService _userService;
 
-    public ViewModelBase(NavigationService navigationService, IUserService userService)
+    public ViewModelBase(INavigationService navigationService, IUserService userService)
     {
         _navigationService = navigationService;
         _userService =       userService;

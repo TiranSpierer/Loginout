@@ -1,12 +1,12 @@
-﻿using Loginout.Stores;
+﻿using Loginout.Services;
+using Loginout  .Stores;
 using Loginout.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyModel;
 using System;
 
 namespace Loginout.Services;
 
-public class NavigationService
+public class NavigationService : INavigationService
 {
     private readonly NavigationStore _navigationStore;
     private readonly IServiceProvider _serviceProvider;

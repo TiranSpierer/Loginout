@@ -15,7 +15,7 @@ public class MainViewModel : ViewModelBase
 
     public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-    public MainViewModel(NavigationStore navigationStore, NavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public MainViewModel(NavigationStore navigationStore, INavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
         _navigationStore = navigationStore;
 

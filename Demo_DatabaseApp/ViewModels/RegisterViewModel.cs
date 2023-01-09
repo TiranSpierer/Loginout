@@ -27,7 +27,7 @@ public class RegisterViewModel : ViewModelBase
 
     #region Constructors
 
-    public RegisterViewModel(NavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public RegisterViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
     {
         _password = string.Empty;
         SelectedPrivileges = new HashSet<Privilege>();

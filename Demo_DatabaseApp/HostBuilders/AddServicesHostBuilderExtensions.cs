@@ -25,7 +25,7 @@ public static class AddServicesHostBuilderExtensions
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
-            services.AddTransient<NavigationService>();
+            services.AddTransient<INavigationService, NavigationService>();
             services.AddSingleton<NavigationStore>();
         });
         return host;
