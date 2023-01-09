@@ -73,6 +73,7 @@ public class UserService : IUserService
 
         if (user != null)
         {
+            updatedUser.Password = _passwordHasher.HashPassword(new User(), updatedUser.Password!);
             if (originalUsername != updatedUser.Id)
             {
                 if (await _repository.GetByIdAsync(updatedUser.Id) == null)
