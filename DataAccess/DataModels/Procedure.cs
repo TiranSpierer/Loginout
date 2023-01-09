@@ -1,4 +1,4 @@
-﻿// UserManager/Domain/Procedure.cs
+﻿// Demo_DatabaseApp/Domain/Procedure.cs
 // Created by Tiran Spierer
 // Created at 04/01/2023
 // Class propose:

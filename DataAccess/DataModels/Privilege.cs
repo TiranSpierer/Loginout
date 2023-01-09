@@ -1,4 +1,4 @@
-﻿// UserManager/Domain/Privilege.cs
+﻿// Demo_DatabaseApp/Domain/Privilege.cs
 // Created by Tiran Spierer
 // Created at 27/12/2022
 // Class propose:

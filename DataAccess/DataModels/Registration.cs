@@ -1,4 +1,4 @@
-﻿// UserManager/Domain/Registration.cs
+﻿// Demo_DatabaseApp/Domain/Registration.cs
 // Created by Tiran Spierer
 // Created at 04/01/2023
 // Class propose:

@@ -1,4 +1,4 @@
-﻿// UserManager/Domain/Frame.cs
+﻿// Demo_DatabaseApp/Domain/Frame.cs
 // Created by Tiran Spierer
 // Created at 05/01/2023
 // Class propose:

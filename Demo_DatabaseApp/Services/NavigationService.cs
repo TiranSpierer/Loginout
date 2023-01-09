@@ -20,17 +20,17 @@ public class NavigationService
     public void Navigate(Type viewModelType)
     {
         var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType) as ViewModelBase;
-
-        if(viewModel != null)
-        {
-            _navigationStore.CurrentViewModel = viewModel;
-        }
+        Navigate(viewModel);
     }
 
     public void Navigate(Type viewModelType, params object[] arguments)
     {
         var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType, arguments) as ViewModelBase;
+        Navigate(viewModel);
+    }
 
+    private void Navigate(ViewModelBase? viewModel)
+    {
         if (viewModel != null)
         {
             _navigationStore.CurrentViewModel = viewModel;

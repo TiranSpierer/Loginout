@@ -1,4 +1,4 @@
-﻿// UserManager/Domain/Patient.cs
+﻿// Demo_DatabaseApp/Domain/Patient.cs
 // Created by Tiran Spierer
 // Created at 26/12/2022
 // Class propose:

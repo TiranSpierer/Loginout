@@ -1,4 +1,4 @@
-﻿// UserManager/UserManager/PrivilegeConverter.cs
+﻿// Demo_DatabaseApp/Demo_DatabaseApp/PrivilegeConverter.cs
 // Created by Tiran Spierer
 // Created at 03/01/2023
 // Class propose:
@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace UserManager.Converters;
+namespace Demo_DatabaseApp.Converters;
 
 public class PrivilegeConverter : IValueConverter
 {
