@@ -1,5 +1,5 @@
 ﻿using System;
-using Demo_DatabaseApp.ViewModels;
+using Demo_DatabaseApp.ViewModels.Surviews;
 
 namespace Demo_DatabaseApp.Stores
 {

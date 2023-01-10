@@ -1,6 +1,6 @@
 ﻿using System;
 using Demo_DatabaseApp.Stores;
-using Demo_DatabaseApp.ViewModels;
+using Demo_DatabaseApp.ViewModels.Surviews;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo_DatabaseApp.Services;

@@ -2,7 +2,7 @@
 using Demo_DatabaseApp.Services;
 using Prism.Mvvm;
 
-namespace Demo_DatabaseApp.ViewModels;
+namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class ViewModelBase : BindableBase
 {
@@ -12,10 +12,10 @@ public class ViewModelBase : BindableBase
     public ViewModelBase(INavigationService navigationService, IUserService userService)
     {
         _navigationService = navigationService;
-        _userService =       userService;
+        _userService = userService;
     }
-    
-    public virtual void Dispose()    
-    {   
+
+    public virtual void Dispose()
+    {
     }
 }

@@ -6,7 +6,7 @@ using DataService.Services;
 using Demo_DatabaseApp.Services;
 using Prism.Commands;
 
-namespace Demo_DatabaseApp.ViewModels;
+namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class LoginViewModel : ViewModelBase
 {

@@ -2,7 +2,7 @@
 using Demo_DatabaseApp.Services;
 using Demo_DatabaseApp.Stores;
 
-namespace Demo_DatabaseApp.ViewModels;
+namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class MainViewModel : ViewModelBase
 {

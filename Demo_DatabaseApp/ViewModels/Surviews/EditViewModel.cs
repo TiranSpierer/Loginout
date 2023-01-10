@@ -8,7 +8,7 @@ using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
 
-namespace Demo_DatabaseApp.ViewModels;
+namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class EditViewModel : RegisterViewModel
 {
@@ -24,9 +24,9 @@ public class EditViewModel : RegisterViewModel
     {
         _originalUsername = user.Id;
 
-        Name               = user.Name;
-        Username           = user.Id;
-        Password           = string.Empty;
+        Name = user.Name;
+        Username = user.Id;
+        Password = string.Empty;
 
         if (user?.UserPrivileges != null)
         {
@@ -47,7 +47,7 @@ public class EditViewModel : RegisterViewModel
                 }
             }
         }
-        
+
     }
 
     #endregion
@@ -73,11 +73,11 @@ public class EditViewModel : RegisterViewModel
             Id = Username!,
             Name = Name,
             Password = Password,
-            UserPrivileges = (SelectedPrivileges.Select(p => new UserPrivilege()
+            UserPrivileges = SelectedPrivileges.Select(p => new UserPrivilege()
             {
                 Privilege = p,
                 UserId = Username!
-            }).ToList())
+            }).ToList()
         };
 
         var isUpdated = await _userService.EditAsync(_originalUsername, updatedUser);

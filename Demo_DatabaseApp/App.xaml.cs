@@ -3,7 +3,7 @@ using DataAccess.Context;
 using DataService.Initialization;
 using Demo_DatabaseApp.HostBuilders;
 using Demo_DatabaseApp.Services;
-using Demo_DatabaseApp.ViewModels;
+using Demo_DatabaseApp.ViewModels.Surviews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

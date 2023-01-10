@@ -1,8 +1,10 @@
 ﻿<Application x:Class="Demo_DatabaseApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:viewmodels="clr-namespace:Demo_DatabaseApp.ViewModels"
-             xmlns:views="clr-namespace:Demo_DatabaseApp.Views">
+             xmlns:views="clr-namespace:Demo_DatabaseApp.Views"
+             xmlns:subviewmodels="clr-namespace:Demo_DatabaseApp.ViewModels.Subviews"
+             xmlns:viewmodels="clr-namespace:Demo_DatabaseApp.ViewModels.Surviews"
+             xmlns:subviews="clr-namespace:Demo_DatabaseApp.Views.Subviews">
 
     
     <Application.Resources>
@@ -27,7 +29,11 @@
             <DataTemplate DataType="{x:Type viewmodels:EditViewModel}">
                 <views:RegisterView />
             </DataTemplate>
-            
+
+            <DataTemplate DataType="{x:Type subviewmodels:HomeSubOneViewModel}">
+                <subviews:HomeSubOneView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
     

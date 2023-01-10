@@ -4,7 +4,7 @@ using DataService.Services;
 using Demo_DatabaseApp.Services;
 using Prism.Commands;
 
-namespace Demo_DatabaseApp.ViewModels;
+namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class RegisterViewModel : ViewModelBase
 {
@@ -122,7 +122,7 @@ public class RegisterViewModel : ViewModelBase
     {
         var isRegistered = await _userService.RegisterAsync(Username!, Password!, Name!, SelectedPrivileges);
 
-        if(isRegistered == false)
+        if (isRegistered == false)
         {
             ErrorMessage = "Username taken";
         }
