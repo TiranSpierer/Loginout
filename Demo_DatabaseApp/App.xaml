@@ -1,9 +1,8 @@
-﻿<Application x:Class="Loginout.App"
+﻿<Application x:Class="Demo_DatabaseApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Loginout"
-             xmlns:views="clr-namespace:Loginout.Views"
-             xmlns:viewmodels="clr-namespace:Loginout.ViewModels">
+             xmlns:viewmodels="clr-namespace:Demo_DatabaseApp.ViewModels"
+             xmlns:views="clr-namespace:Demo_DatabaseApp.Views">
 
     
     <Application.Resources>

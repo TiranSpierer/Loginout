@@ -2,7 +2,6 @@
 using DataAccess.DataModels;
 using DataAccess.Repository;
 using DataService.Services;
-using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Linq.Expressions;
 

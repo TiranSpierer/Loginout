@@ -3,7 +3,7 @@
 // Created at 27/12/2022
 // Class propose:
 
-namespace Domain.Models;
+namespace DataAccess.DataModels;
 
 public enum Privilege
 {

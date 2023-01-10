@@ -1,12 +1,11 @@
-﻿using DataAccess.DataModels;
-using DataService.Services;
-using Loginout.Services;
-using Prism.Commands;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using DataAccess.DataModels;
+using DataService.Services;
+using Demo_DatabaseApp.Services;
+using Prism.Commands;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class HomeViewModel : ViewModelBase
 {

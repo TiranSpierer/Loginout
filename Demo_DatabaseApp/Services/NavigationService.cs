@@ -1,10 +1,9 @@
-﻿using Loginout.Services;
-using Loginout  .Stores;
-using Loginout.ViewModels;
+﻿using System;
+using Demo_DatabaseApp.Stores;
+using Demo_DatabaseApp.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace Loginout.Services;
+namespace Demo_DatabaseApp.Services;
 
 public class NavigationService : INavigationService
 {

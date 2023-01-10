@@ -1,14 +1,10 @@
-﻿using DataService.Services;
-using Domain.Models;
-using Loginout.Services;
+﻿using System.Collections.Generic;
+using DataAccess.DataModels;
+using DataService.Services;
+using Demo_DatabaseApp.Services;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class RegisterViewModel : ViewModelBase
 {

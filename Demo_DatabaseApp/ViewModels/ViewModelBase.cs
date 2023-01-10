@@ -1,9 +1,8 @@
-﻿
-using DataService.Services;
-using Loginout.Services;
+﻿using DataService.Services;
+using Demo_DatabaseApp.Services;
 using Prism.Mvvm;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class ViewModelBase : BindableBase
 {

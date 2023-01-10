@@ -1,14 +1,14 @@
-﻿using DataAccess.Context;
+﻿using System.Windows;
+using DataAccess.Context;
 using DataService.Initialization;
-using Loginout.HostBuilders;
-using Loginout.Services;
-using Loginout.ViewModels;
+using Demo_DatabaseApp.HostBuilders;
+using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Windows;
 
-namespace Loginout;
+namespace Demo_DatabaseApp;
 
 public partial class App : Application
 {

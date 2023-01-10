@@ -1,14 +1,11 @@
-﻿
-
+﻿using System.IO;
 using DataAccess.Context;
-using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using System.Windows.Markup;
+using Microsoft.Extensions.Hosting;
 
-namespace Loginout.HostBuilders;
+namespace Demo_DatabaseApp.HostBuilders;
 
 public static class AddDbContextHostBuilderExtensions
 {

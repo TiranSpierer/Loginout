@@ -1,7 +1,7 @@
-﻿using Loginout.ViewModels;
-using System;
+﻿using System;
+using Demo_DatabaseApp.ViewModels;
 
-namespace Loginout.Stores
+namespace Demo_DatabaseApp.Stores
 {
     public class NavigationStore
     {

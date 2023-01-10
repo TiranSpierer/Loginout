@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Domain.Models;
+using DataAccess.DataModels;
 using DataService.Services;
 using Microsoft.Extensions.Configuration;
 

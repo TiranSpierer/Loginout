@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loginout.Services;
+namespace Demo_DatabaseApp.Services;
 
 public interface INavigationService
 {

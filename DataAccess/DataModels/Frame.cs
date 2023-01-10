@@ -3,7 +3,6 @@
 // Created at 05/01/2023
 // Class propose:
 
-using Domain.Models;
 using System;
 
 namespace DataAccess.DataModels;

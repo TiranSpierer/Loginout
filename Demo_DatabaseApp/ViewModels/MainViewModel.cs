@@ -1,13 +1,8 @@
 ﻿using DataService.Services;
-using Loginout.Services;
-using Loginout.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.Stores;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {

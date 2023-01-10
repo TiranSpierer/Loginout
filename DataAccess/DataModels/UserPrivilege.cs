@@ -3,8 +3,6 @@
 // Created at 27/12/2022
 // Class propose:
 
-using Domain.Models;
-
 namespace DataAccess.DataModels;
 
 public class UserPrivilege : IEntity<UserPrivilege>

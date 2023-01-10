@@ -4,7 +4,6 @@
 // Class propose:
 
 using System;
-using Domain.Models;
 using System.Collections.Generic;
 
 namespace DataAccess.DataModels;

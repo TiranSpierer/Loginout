@@ -1,18 +1,20 @@
-﻿using DataService.Services;
-using Loginout.Services;
-using Prism.Commands;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using DataAccess.DataModels;
+using DataService.Services;
+using Demo_DatabaseApp.Services;
+using Prism.Commands;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class LoginViewModel : ViewModelBase
 {
     #region Privates
 
     private string? _password;
-    private string? _username;
     private bool _canExecuteLoginCommand;
-    private string? _errorMessage;
+    private User? _selectedUser;
 
     #endregion
 
@@ -22,11 +24,15 @@ public class LoginViewModel : ViewModelBase
     {
         _password = string.Empty;
         NavigateToHomeCommand = new DelegateCommand(ExecuteLoginCommandAsync).ObservesCanExecute(() => CanExecuteLoginCommand);
+        UsersList = new ObservableCollection<User>();
+        InitUsersList();
     }
 
     #endregion
 
     #region Public Properties
+
+    public ObservableCollection<User> UsersList { get; set; }
 
     public DelegateCommand NavigateToHomeCommand { get; }
 
@@ -46,20 +52,15 @@ public class LoginViewModel : ViewModelBase
         }
     }
 
-    public string? Username
+    public User? SelectedUser
     {
-        get => _username;
+        get => _selectedUser;
         set
         {
-            SetProperty(ref _username, value);
+            SetProperty(ref _selectedUser, value);
+            Password = string.Empty;
             Task.Run(CanExecuteLoginCommandAsync);
         }
-    }
-
-    public string? ErrorMessage
-    {
-        get => _errorMessage;
-        set => SetProperty(ref _errorMessage, value);
     }
 
     #endregion
@@ -73,16 +74,21 @@ public class LoginViewModel : ViewModelBase
 
     private async Task CanExecuteLoginCommandAsync()
     {
-        if(string.IsNullOrEmpty(Username) == false)
+        CanExecuteLoginCommand = await _userService.AuthenticateAsync(SelectedUser?.Id!, Password!);
+    }
+
+    private async void InitUsersList()
+    {
+        UsersList.Clear();
+        var freshUsers = await _userService.GetAllUsersAsync();
+
+        var enumerable = freshUsers as User[] ?? freshUsers.ToArray();
+        foreach (var user in enumerable)
         {
-            ErrorMessage = "";
-            CanExecuteLoginCommand = await _userService.AuthenticateAsync(Username, Password!);
+            UsersList.Add(user);
         }
-        else
-        {
-            ErrorMessage = "Wrong username or password";
-            CanExecuteLoginCommand = false;
-        }
+
+        SelectedUser = enumerable.FirstOrDefault();
     }
 
     #endregion

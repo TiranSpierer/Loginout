@@ -4,7 +4,6 @@ using DataAccess.Repository;
 using DataAccess.DataModels;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Models;
 
 namespace DataService.Services;
 

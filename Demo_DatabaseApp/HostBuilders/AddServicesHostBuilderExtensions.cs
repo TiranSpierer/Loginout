@@ -2,13 +2,13 @@
 using DataAccess.Repository;
 using DataService.Initialization;
 using DataService.Services;
-using Loginout.Services;
-using Loginout.Stores;
+using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Loginout.HostBuilders;
+namespace Demo_DatabaseApp.HostBuilders;
 
 public static class AddServicesHostBuilderExtensions
 {

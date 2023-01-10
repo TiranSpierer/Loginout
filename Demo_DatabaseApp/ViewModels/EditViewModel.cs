@@ -3,14 +3,12 @@
 // Created at 08/01/2023
 // Class propose:
 
-using System;
 using System.Linq;
 using DataAccess.DataModels;
 using DataService.Services;
-using Domain.Models;
-using Loginout.Services;
+using Demo_DatabaseApp.Services;
 
-namespace Loginout.ViewModels;
+namespace Demo_DatabaseApp.ViewModels;
 
 public class EditViewModel : RegisterViewModel
 {

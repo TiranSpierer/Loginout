@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Demo_DatabaseApp.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Loginout.ViewModels;
 
-namespace Loginout.HostBuilders;
+namespace Demo_DatabaseApp.HostBuilders;
 
 public static class AddViewsHostBuilderExtensions
 {
