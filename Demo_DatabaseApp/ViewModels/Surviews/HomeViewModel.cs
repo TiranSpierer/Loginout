@@ -3,41 +3,54 @@ using System.Threading.Tasks;
 using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.Stores;
+using Demo_DatabaseApp.ViewModels.Interfaces;
 using Demo_DatabaseApp.ViewModels.Subviews;
+using EventAggregator.ViewModelChanged;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Demo_DatabaseApp.ViewModels.Surviews;
 
 public class HomeViewModel : ViewModelBase
 {
-    #region Privates
 
-    private User?                _selectedUser;
-    private HomeSubOneViewModel  _homeSubOne;
+#region Privates
+
+    private readonly NavigationStore<SubViewModelChanged> _navigationStore;
+    private          User?                                _selectedUser;
 
 #endregion
 
     #region Constructors
 
-    public HomeViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public HomeViewModel(INavigationService navigationService, NavigationStore<SubViewModelChanged> navigationStore, IUserService userService, IEventAggregator ea) : base(navigationService, userService, ea)
     {
-        NavigateToLoginCommand    = new DelegateCommand(() => _navigationService.Navigate(typeof(LoginViewModel)));
-        NavigateToRegisterCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(RegisterViewModel)));
+        _navigationStore          = navigationStore;
+
+        NavigateToLoginCommand    = new DelegateCommand(() => _navigationService.NavigateMainPage(typeof(LoginViewModel)));
+        NavigateToRegisterCommand = new DelegateCommand(() => _navigationService.NavigateMainPage(typeof(RegisterViewModel)));
         NavigateToEditCommand     = new DelegateCommand(ExecuteEdit, CanExecuteEdit);
         RemoveUserCommand         = new DelegateCommand(ExecuteRemoveUser);
-        _homeSubOne               = new HomeSubOneViewModel();
-        Users                     = new ObservableCollection<User>();
-        _                         = InitTable();
+
+        _ea.GetEvent<SubViewModelChanged>().Subscribe(() => RaisePropertyChanged(nameof(CurrentSubViewModel)));
+        navigationService.NavigateSubPage(typeof(HomeSubOneViewModel));
+
+        Users = new ObservableCollection<User>();
+        _     = InitTable();
     }
 
     #endregion
 
     #region Public Properties
 
-    public DelegateCommand NavigateToLoginCommand { get; }
-    public DelegateCommand NavigateToRegisterCommand { get; }
-    public DelegateCommand NavigateToEditCommand { get; }
-    public DelegateCommand RemoveUserCommand { get; }
+    public INavigableViewModel CurrentSubViewModel => _navigationStore.CurrentViewModel;
+
+
+    public DelegateCommand     NavigateToLoginCommand    { get; }
+    public DelegateCommand     NavigateToRegisterCommand { get; }
+    public DelegateCommand     NavigateToEditCommand     { get; }
+    public DelegateCommand     RemoveUserCommand         { get; }
 
     public ObservableCollection<User> Users { get; set; }
 
@@ -48,14 +61,7 @@ public class HomeViewModel : ViewModelBase
         {
             SetProperty(ref _selectedUser, value);
             NavigateToEditCommand.RaiseCanExecuteChanged();
-            HomeSubOne.SelectedUser = SelectedUser;
         }
-    }
-
-    public HomeSubOneViewModel HomeSubOne
-    {
-        get => _homeSubOne;
-        set => SetProperty(ref _homeSubOne, value);
     }
 
 #endregion
@@ -84,10 +90,10 @@ public class HomeViewModel : ViewModelBase
 
     private void ExecuteEdit()
     {
-        _navigationService.Navigate(typeof(EditViewModel), SelectedUser!);
+        _navigationService.NavigateMainPage(typeof(EditViewModel), SelectedUser!);
     }
 
     private bool CanExecuteEdit() => SelectedUser != null;
 
-    #endregion
+#endregion
 }

@@ -7,13 +7,17 @@ using System.Collections.ObjectModel;
 using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.Stores;
+using Demo_DatabaseApp.ViewModels.Interfaces;
+using Prism.Commands;
 using Prism.Mvvm;
 
 namespace Demo_DatabaseApp.ViewModels.Subviews;
 
-public class HomeSubOneViewModel
+public class HomeSubOneViewModel: BindableBase, INavigableViewModel
 {
-    private User? _selectedUser;
+    private readonly INavigationService _navigationService;
+    private          User              _selectedUser;
 
 #region Privates
 
@@ -23,16 +27,20 @@ public class HomeSubOneViewModel
 
 #region Constructors
 
-    public HomeSubOneViewModel()
+    public HomeSubOneViewModel(INavigationService navigationService, User selectedUser)
     {
+        _navigationService = navigationService;
         Procedures         = new ObservableCollection<Procedure>();
+        NextSubviewCommand = new DelegateCommand(ExecuteNextSubview);
+        UpdateTableCommand = new DelegateCommand(InitProcedures);
+        _selectedUser      = selectedUser;
     }
 
-    #endregion
+#endregion
 
     #region Public Properties
 
-    public User? SelectedUser
+    public User SelectedUser
     {
         get => _selectedUser;
         set
@@ -44,15 +52,27 @@ public class HomeSubOneViewModel
 
     public ObservableCollection<Procedure> Procedures   { get; set; }
 
-#endregion
+    public DelegateCommand NextSubviewCommand { get; }
+    public DelegateCommand UpdateTableCommand { get; }
 
-#region Public Methods
+    #endregion
+
+    #region Public Methods
+
+    public void Dispose()
+    {
+
+    }
 
 
+    #endregion
 
-#endregion
+    #region Private Methods
 
-#region Private Methods
+    private void ExecuteNextSubview()
+    {
+        _navigationService.NavigateSubPage(typeof(HomeSubTwoViewModel));
+    }
 
     private void InitProcedures()
     {
@@ -62,13 +82,13 @@ public class HomeSubOneViewModel
                          {
                              Id        = rand.Next(),
                              PatientId = rand.Next(),
-                             UserId    = SelectedUser!.Id
+                             UserId    = SelectedUser.Id
         };
         var procedure2 = new Procedure()
                          {
                              Id        = rand.Next(),
                              PatientId = rand.Next(),
-                             UserId    = SelectedUser!.Id
+                             UserId    = SelectedUser.Id
         };
 
         Procedures.Add(procedure1);
@@ -80,6 +100,7 @@ public class HomeSubOneViewModel
         //}
     }
 
-#endregion
+
+    #endregion
 
 }

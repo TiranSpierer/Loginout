@@ -28,16 +28,16 @@ public partial class App : Application
     {
         _host.Start();
 
-        EnvueDbContextFactory envueDbContextFactory = _host.Services.GetRequiredService<EnvueDbContextFactory>();
-        using (EnvueDbContext dbContext = envueDbContextFactory.CreateDbContext())
+        var envueDbContextFactory = _host.Services.GetRequiredService<EnvueDbContextFactory>();
+        using (var dbContext = envueDbContextFactory.CreateDbContext())
         {
             dbContext.Database.Migrate();
         }
 
         _host.Services.GetRequiredService<DbInitializer>().Initialize();
 
-        INavigationService navigationService = _host.Services.GetRequiredService<INavigationService>();
-        navigationService.Navigate(typeof(LoginViewModel));
+        var navigationService = _host.Services.GetRequiredService<INavigationService>();
+        navigationService.NavigateMainPage(typeof(LoginViewModel));
 
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
         MainWindow.Show();

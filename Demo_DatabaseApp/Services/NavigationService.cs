@@ -1,41 +1,45 @@
 ﻿using System;
 using Demo_DatabaseApp.Stores;
+using Demo_DatabaseApp.ViewModels.Interfaces;
 using Demo_DatabaseApp.ViewModels.Surviews;
+using EventAggregator.ViewModelChanged;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo_DatabaseApp.Services;
 
 public class NavigationService : INavigationService
 {
-    private readonly NavigationStore _navigationStore;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly NavigationStore<MainViewModelChanged> _mainNavigationStore;
+    private readonly NavigationStore<SubViewModelChanged>  _subNavigationStore;
+    private readonly IServiceProvider                      _serviceProvider;
 
-    public NavigationService(NavigationStore navigationStore, IServiceProvider serviceProvider)
+    public NavigationService(NavigationStore<MainViewModelChanged> mainNavigationStore, NavigationStore<SubViewModelChanged> subNavigationStore, IServiceProvider serviceProvider)
     {
-        _navigationStore = navigationStore;
-        _serviceProvider = serviceProvider;
+        _mainNavigationStore = mainNavigationStore;
+        _subNavigationStore  = subNavigationStore;
+        _serviceProvider     = serviceProvider;
     }
 
-    public void Navigate(Type viewModelType)
+    public void NavigateMainPage(Type viewModelType, object[]? arguments = null)
     {
-        var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType) as ViewModelBase;
-        Navigate(viewModel);
+        Navigate(viewModelType, arguments, _mainNavigationStore);
     }
 
-    public void Navigate(Type viewModelType, params object[] arguments)
+    public void NavigateSubPage(Type viewModelType, object[]? arguments = null)
     {
-        var viewModel = ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType, arguments) as ViewModelBase;
-        Navigate(viewModel);
+        Navigate(viewModelType, arguments, _subNavigationStore);
     }
 
-    private void Navigate(ViewModelBase? viewModel)
+    private void Navigate(Type viewModelType, object[]? arguments, INavigationStore navigationStore)
     {
-        if (viewModel != null)
+        var viewModel = (arguments == null)
+                            ? ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType)
+                            : ActivatorUtilities.CreateInstance(_serviceProvider, viewModelType, arguments);
+
+        if (viewModel is INavigableViewModel vm)
         {
-            _navigationStore.CurrentViewModel = viewModel;
+            navigationStore.CurrentViewModel = vm;
         }
     }
 
 }
-
-

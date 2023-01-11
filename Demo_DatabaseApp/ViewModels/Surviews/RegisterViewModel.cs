@@ -2,7 +2,9 @@
 using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.ViewModels.Interfaces;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Demo_DatabaseApp.ViewModels.Surviews;
 
@@ -23,13 +25,13 @@ public class RegisterViewModel : ViewModelBase
 
     #region Constructors
 
-    public RegisterViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public RegisterViewModel(INavigationService navigationService, IUserService userService, IEventAggregator ea) : base(navigationService, userService, ea)
     {
         _password = string.Empty;
         SelectedPrivileges = new HashSet<Privilege>();
 
         RegisterCommand = new DelegateCommand(ExecuteRegisterCommandAsync).ObservesCanExecute(() => CanExecuteRegisterCommand);
-        CancelCommand = new DelegateCommand(() => _navigationService.Navigate(typeof(HomeViewModel)));
+        CancelCommand = new DelegateCommand(() => _navigationService.NavigateMainPage(typeof(HomeViewModel)));
     }
 
     #endregion
@@ -129,7 +131,7 @@ public class RegisterViewModel : ViewModelBase
         else
         {
             ErrorMessage = "";
-            _navigationService.Navigate(typeof(HomeViewModel));
+            _navigationService.NavigateMainPage(typeof(HomeViewModel));
         }
     }
 

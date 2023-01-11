@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
+using Demo_DatabaseApp.ViewModels.Interfaces;
 using Prism.Commands;
+using Prism.Events;
 
 namespace Demo_DatabaseApp.ViewModels.Surviews;
 
@@ -20,7 +22,7 @@ public class LoginViewModel : ViewModelBase
 
     #region Constructors
 
-    public LoginViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public LoginViewModel(INavigationService navigationService, IUserService userService, IEventAggregator ea) : base(navigationService, userService, ea)
     {
         _password = string.Empty;
         NavigateToHomeCommand = new DelegateCommand(ExecuteLoginCommandAsync).ObservesCanExecute(() => CanExecuteLoginCommand);
@@ -69,7 +71,7 @@ public class LoginViewModel : ViewModelBase
 
     private void ExecuteLoginCommandAsync()
     {
-        _navigationService.Navigate(typeof(HomeViewModel));
+        _navigationService.NavigateMainPage(typeof(HomeViewModel));
     }
 
     private async Task CanExecuteLoginCommandAsync()

@@ -7,6 +7,7 @@ using System.Linq;
 using DataAccess.DataModels;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
+using Prism.Events;
 
 namespace Demo_DatabaseApp.ViewModels.Surviews;
 
@@ -20,7 +21,7 @@ public class EditViewModel : RegisterViewModel
 
     #region Constructors
 
-    public EditViewModel(INavigationService navigationService, IUserService userService, User user) : base(navigationService, userService)
+    public EditViewModel(INavigationService navigationService, IUserService userService, IEventAggregator ea, User user) : base(navigationService, userService, ea)
     {
         _originalUsername = user.Id;
 
@@ -89,7 +90,7 @@ public class EditViewModel : RegisterViewModel
         else
         {
             ErrorMessage = "";
-            _navigationService.Navigate(typeof(HomeViewModel));
+            _navigationService.NavigateMainPage(typeof(HomeViewModel));
         }
     }
 

@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataService\DataService.csproj" />
+    <ProjectReference Include="..\EventAggregator\EventAggregator.csproj" />
     <Resource Include="Resources\login-background.jpg" />
 	  
 	<None Update="appsettings.json">

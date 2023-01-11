@@ -1,12 +1,15 @@
-﻿using DataAccess.DataModels;
+﻿using System;
+using DataAccess.DataModels;
 using DataAccess.Repository;
 using DataService.Initialization;
 using DataService.Services;
 using Demo_DatabaseApp.Services;
 using Demo_DatabaseApp.Stores;
+using EventAggregator.ViewModelChanged;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prism.Events;
 
 namespace Demo_DatabaseApp.HostBuilders;
 
@@ -24,11 +27,14 @@ public static class AddServicesHostBuilderExtensions
             services.AddSingleton(hostContext.Configuration);
 
             services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddSingleton<IEventAggregator, Prism.Events.EventAggregator>();
 
-            services.AddTransient<INavigationService, NavigationService>();
-            services.AddSingleton<NavigationStore>();
+            services.AddSingleton<NavigationStore<SubViewModelChanged>>();
+            services.AddSingleton<NavigationStore<MainViewModelChanged>>();
+            services.AddSingleton<INavigationService, NavigationService>();
         });
         return host;
     }
+
 }
 

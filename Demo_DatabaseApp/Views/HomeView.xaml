@@ -49,16 +49,9 @@
             </ListView>
         </Grid>
 
-        <Grid Grid.Row="2" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="5*"/>
-            </Grid.ColumnDefinitions>
-
-            <ContentControl Content="{Binding  HomeSubOne}" Grid.ColumnSpan="2"></ContentControl>
-
-        </Grid>
+        <Border BorderBrush="CadetBlue" BorderThickness="2" Grid.Row="2" Margin="20">
+            <ContentControl Content="{Binding  CurrentSubViewModel}"/>
+        </Border>
 
         <Grid Grid.Row="3" Margin="10">
             <StackPanel Orientation="Horizontal">

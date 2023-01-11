@@ -2,17 +2,18 @@
 // Created at 10/01/2023
 // Class purpose:
 
-using System.Collections.ObjectModel;
-using DataAccess.DataModels;
-using DataService.Services;
+
 using Demo_DatabaseApp.Services;
-using Demo_DatabaseApp.ViewModels.Surviews;
+using Demo_DatabaseApp.ViewModels.Interfaces;
+using Prism.Commands;
 
 namespace Demo_DatabaseApp.ViewModels.Subviews;
 
-public class HomeSubTwoViewModel : HomeViewModel
+public class HomeSubTwoViewModel : INavigableViewModel
 {
-    #region Privates
+    private readonly INavigationService _navigationService;
+
+#region Privates
 
 
 
@@ -20,20 +21,27 @@ public class HomeSubTwoViewModel : HomeViewModel
 
     #region Constructors
 
-    public HomeSubTwoViewModel(INavigationService navigationService, IUserService userService) : base(navigationService, userService)
+    public HomeSubTwoViewModel(INavigationService navigationService)
     {
+        _navigationService = navigationService;
+        NextSubviewCommand = new DelegateCommand(ExecuteNextSubview);
     }
+
 
 #endregion
 
     #region Public Properties
 
+    public DelegateCommand NextSubviewCommand { get; }
 
     #endregion
 
     #region Public Methods
 
-
+    private void ExecuteNextSubview()
+    {
+        _navigationService.NavigateSubPage(typeof(HomeSubOneViewModel));
+    }
 
     #endregion
 
@@ -42,4 +50,12 @@ public class HomeSubTwoViewModel : HomeViewModel
 
     #endregion
 
+    #region Implementation of INavigableViewModel
+
+    public void Dispose()
+    {
+        
+    }
+
+#endregion
 }
