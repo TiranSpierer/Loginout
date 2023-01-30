@@ -35,9 +35,12 @@
         </Grid>
 
         <Grid Grid.Row="2">
-            <Button Content="Next Subview" Command="{Binding NextSubviewCommand}" VerticalAlignment="Bottom"  HorizontalAlignment="right"/>
-            <Button Content="UpdateTable" Command="{Binding UpdateTableCommand}" VerticalAlignment="Bottom"  HorizontalAlignment="Right"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"  HorizontalAlignment="right">
+                <Button Content="UpdateTable" Command="{Binding UpdateTableCommand}" Margin="5"/>
+                <Button Content="Next Subview" Command="{Binding NextSubviewCommand}" Margin="5"/>
 
+            </StackPanel>
+            
             
         </Grid>
 

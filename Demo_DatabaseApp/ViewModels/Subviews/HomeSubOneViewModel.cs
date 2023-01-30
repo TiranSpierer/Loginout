@@ -14,7 +14,7 @@ using Prism.Mvvm;
 
 namespace Demo_DatabaseApp.ViewModels.Subviews;
 
-public class HomeSubOneViewModel: BindableBase, INavigableViewModel
+public class HomeSubOneViewModel:  INavigableViewModel
 {
     private readonly INavigationService _navigationService;
     private          User              _selectedUser;

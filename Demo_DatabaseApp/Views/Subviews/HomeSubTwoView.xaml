@@ -13,8 +13,10 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Subview 2" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="24"/>
+        
         <Grid Grid.Row="1">
-            <Button Content="Next Subview" Command="{Binding NextSubviewCommand}" VerticalAlignment="Bottom"  HorizontalAlignment="right"/>
+            <Button Content="Next Subview" Command="{Binding NextSubviewCommand}"
+                    VerticalAlignment="Bottom"  HorizontalAlignment="right" Margin="5"/>
         </Grid>
     </Grid>
 </UserControl>
