@@ -14,7 +14,7 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
     private readonly EnvueDbContextFactory _dbContextFactory;
 
     public Repository(EnvueDbContextFactory dbContextFactory)
-	{
+    {
         _dbContextFactory = dbContextFactory;
     }
 
@@ -49,6 +49,18 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return entity;
     }
 
+    public async Task<T?> GetByIdIncludingPropertiesAsync(Expression<Func<T, bool>> idPredicate, params Expression<Func<T, object>>[] includeProperties)
+    {
+        await using var context = _dbContextFactory.CreateDbContext();
+        var query = context.Set<T>().Where(idPredicate);
+
+        await IncludeQueryProperties(query, includeProperties);
+
+        var entity = await query.FirstOrDefaultAsync();
+
+        return entity;
+    }
+
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         await using var context = _dbContextFactory.CreateDbContext();
@@ -59,19 +71,17 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
     {
         await using var context = _dbContextFactory.CreateDbContext();
         IQueryable<T> query = context.Set<T>();
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
+
+        await IncludeQueryProperties(query, includeProperties);
+
         return await query.ToListAsync();
     }
 
-
     public async Task<bool> UpdateAsync(object id, T updatedEntity)
     {
-        await using var context   = _dbContextFactory.CreateDbContext();
-        var             entity    = await GetByIdAsync(id);
-        var             isUpdated = true;
+        await using var context = _dbContextFactory.CreateDbContext();
+        var entity = await GetByIdAsync(id);
+        var isUpdated = true;
 
         if (entity != null)
         {
@@ -92,9 +102,9 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
 
     public async Task<bool> DeleteAsync(object id)
     {
-        await using var context   = _dbContextFactory.CreateDbContext();
-        var             entity    = await GetByIdAsync(id);
-        var             isDeleted = false;
+        await using var context = _dbContextFactory.CreateDbContext();
+        var entity = await GetByIdAsync(id);
+        var isDeleted = false;
 
         if (entity != null)
         {
@@ -113,13 +123,21 @@ public class Repository<T> : IRepository<T> where T : class, IEntity<T>
         return isDeleted;
     }
 
-#endregion
+    #endregion
 
     #region Private Methods
 
     private bool IsIdValid(object id)
     {
         return id.GetType() != typeof(string) || id is string s && string.IsNullOrEmpty(s) == false;
+    }
+
+    private async Task IncludeQueryProperties(IQueryable<T> query, params Expression<Func<T, object>>[] includeProperties)
+    {
+        foreach (var property in includeProperties)
+        {
+            await query.Include(property).AsSplitQuery().ToListAsync();
+        }
     }
 
     #endregion
